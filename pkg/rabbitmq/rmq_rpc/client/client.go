@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/streadway/amqp"
 
-	rmqrpc "tourism-backend/pkg/rabbitmq/rmq_rpc"
+	rmqrpc "github.com/ochinchind/docsproc/pkg/rabbitmq/rmq_rpc"
 )
 
 // ErrConnectionClosed -.

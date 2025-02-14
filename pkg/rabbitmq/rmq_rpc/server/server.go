@@ -7,8 +7,8 @@ import (
 
 	"github.com/streadway/amqp"
 
-	"tourism-backend/pkg/logger"
-	rmqrpc "tourism-backend/pkg/rabbitmq/rmq_rpc"
+	"github.com/ochinchind/docsproc/pkg/logger"
+	rmqrpc "github.com/ochinchind/docsproc/pkg/rabbitmq/rmq_rpc"
 )
 
 const (
