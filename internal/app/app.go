@@ -30,6 +30,7 @@ func Run(cfg *config.Config) {
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - postgres.connect: %w", err))
 	}
+
 	err = pg.Migrate()
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - postgres.Migrate: %w", err))
