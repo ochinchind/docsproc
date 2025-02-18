@@ -3,6 +3,7 @@ package app
 
 import (
 	"fmt"
+	"github.com/ochinchind/docsproc/internal/usecase"
 	"os"
 	"os/signal"
 	"syscall"
@@ -11,6 +12,8 @@ import (
 
 	"github.com/ochinchind/docsproc/config"
 	v1 "github.com/ochinchind/docsproc/internal/controller/http/v1"
+	"github.com/ochinchind/docsproc/internal/usecase/repo"
+	"github.com/ochinchind/docsproc/internal/usecase/webapi"
 	"github.com/ochinchind/docsproc/pkg/httpserver"
 	"github.com/ochinchind/docsproc/pkg/logger"
 	"github.com/ochinchind/docsproc/pkg/postgres"
@@ -26,6 +29,16 @@ func Run(cfg *config.Config) {
 		l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
 	}
 
+	// Use case
+	googleOAuthUseCase := usecase.NewGoogleOAuthUseCase(
+		webapi.New(),
+		repo.New(pg),
+	)
+
+	userUseCase := usecase.NewUserUseCase(
+		repo.New(pg),
+	)
+
 	err = pg.Connect(cfg)
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - postgres.connect: %w", err))
@@ -40,7 +53,7 @@ func Run(cfg *config.Config) {
 	handler := gin.New()
 	handler.Static("/uploads", "./uploads")
 	handler.MaxMultipartMemory = 200 << 20
-	v1.NewRouter(handler, l)
+	v1.NewRouter(handler, l, googleOAuthUseCase, userUseCase)
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 
 	// Waiting signal

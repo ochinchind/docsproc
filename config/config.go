@@ -4,18 +4,22 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"log"
+	"os"
 
 	"github.com/ilyakaznacheev/cleanenv"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 )
 
 type (
 	// Config -.
 	Config struct {
-		App  `yaml:"app"`
-		HTTP `yaml:"http"`
-		Log  `yaml:"logger"`
-		PG   `yaml:"postgres"`
-		//RMQ  `yaml:"rabbitmq"`
+		App               `yaml:"app"`
+		HTTP              `yaml:"http"`
+		Log               `yaml:"logger"`
+		PG                `yaml:"postgres"`
+		GoogleLoginConfig oauth2.Config
+		//RMQ             `yaml:"rabbitmq"`
 	}
 
 	// App -.
@@ -48,24 +52,41 @@ type (
 	//}
 )
 
+var Cfg Config
+
 // NewConfig returns app config.
 func NewConfig() (*Config, error) {
-	cfg := &Config{}
+	AppConfig := &Config{}
 
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file", err)
 	}
 
-	err = cleanenv.ReadConfig("./config/config.yml", cfg)
+	err = cleanenv.ReadConfig("./config/config.yml", AppConfig)
 	if err != nil {
 		return nil, fmt.Errorf("config error: %w", err)
 	}
 
-	err = cleanenv.ReadEnv(cfg)
+	err = cleanenv.ReadEnv(AppConfig)
 	if err != nil {
 		return nil, err
 	}
 
-	return cfg, nil
+	AppConfig.GoogleLoginConfig = oauth2.Config{
+		RedirectURL:  "http://localhost:8080/google_callback",
+		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
+		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
+		Scopes: []string{"https://www.googleapis.com/auth/userinfo.email",
+			"https://www.googleapis.com/auth/userinfo.profile"},
+		Endpoint: google.Endpoint,
+	}
+
+	Cfg = *AppConfig
+
+	return AppConfig, nil
+}
+
+func GoogleConfig() oauth2.Config {
+	return Cfg.GoogleLoginConfig
 }

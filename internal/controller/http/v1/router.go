@@ -2,6 +2,7 @@
 package v1
 
 import (
+	"github.com/ochinchind/docsproc/internal/usecase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +22,7 @@ import (
 // @version     1.0
 // @host        localhost:8080
 // @BasePath    /v1
-func NewRouter(handler *gin.Engine, l logger.Interface) {
+func NewRouter(handler *gin.Engine, l logger.Interface, t usecase.GoogleOAuth, userUseCase usecase.User) {
 	// Options
 	handler.Use(gin.Logger())
 	handler.Use(gin.Recovery())
@@ -36,4 +37,13 @@ func NewRouter(handler *gin.Engine, l logger.Interface) {
 	// Prometheus metrics
 	handler.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
+	g := handler.Group("")
+	{
+		newGoogleOAuthRoutesRoutes(g, t, l)
+	}
+
+	h := handler.Group("/v1")
+	{
+		newUserRoutes(h, userUseCase, l)
+	}
 }

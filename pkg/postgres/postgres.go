@@ -3,7 +3,10 @@ package postgres
 
 import (
 	"fmt"
+	"github.com/Masterminds/squirrel"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/ochinchind/docsproc/config"
+	"github.com/ochinchind/docsproc/internal/entity"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"time"
@@ -17,7 +20,13 @@ const (
 
 // Postgres -.
 type Postgres struct {
-	Conn *gorm.DB
+	Conn         *gorm.DB
+	maxPoolSize  int
+	connAttempts int
+	connTimeout  time.Duration
+
+	Builder squirrel.StatementBuilderType
+	Pool    *pgxpool.Pool
 }
 
 // New -.
@@ -46,14 +55,12 @@ func (p *Postgres) Connect(cfg *config.Config) error {
 }
 
 func (p *Postgres) Migrate() error {
-	//err := p.Conn.AutoMigrate(
-	//	&entity.Tour{},
-	//	&entity.Image{},
-	//	&entity.Video{},
-	//)
-	//if err != nil {
-	//	fmt.Errorf("Migrating entities to Postgres - err: %w", err)
-	//	return err
-	//}
+	err := p.Conn.AutoMigrate(
+		&entity.User{},
+	)
+
+	if err != nil {
+		return fmt.Errorf("Migrating entities to Postgres - err: %w", err)
+	}
 	return nil
 }
