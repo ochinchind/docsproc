@@ -57,6 +57,8 @@ func (p *Postgres) Connect(cfg *config.Config) error {
 func (p *Postgres) Migrate() error {
 	err := p.Conn.AutoMigrate(
 		&entity.User{},
+		&entity.Specialty{},
+		&entity.Qualification{},
 	)
 
 	if err != nil {
