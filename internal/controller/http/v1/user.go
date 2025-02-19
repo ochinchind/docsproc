@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/ochinchind/docsproc/internal/entity"
 	"github.com/ochinchind/docsproc/internal/http-server/middleware/auth"
@@ -13,7 +14,7 @@ type userRoutes struct {
 	l logger.Interface
 }
 
-func newUserRoutes(handler *gin.RouterGroup, t usecase.User, l logger.Interface) {
+func newUserRoutes(handler *gin.RouterGroup, t usecase.User, l logger.Interface, casbinEnforcer *casbin.Enforcer) {
 	r := &userRoutes{t, l}
 
 	h := handler.Group("/users").Use(auth.Auth())

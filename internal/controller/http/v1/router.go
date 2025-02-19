@@ -2,6 +2,7 @@
 package v1
 
 import (
+	"github.com/casbin/casbin/v2"
 	"github.com/ochinchind/docsproc/internal/usecase"
 	"net/http"
 
@@ -22,7 +23,7 @@ import (
 // @version     1.0
 // @host        localhost:8080
 // @BasePath    /v1
-func NewRouter(handler *gin.Engine, l logger.Interface, t usecase.GoogleOAuth, userUseCase usecase.User) {
+func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, casbinEnforcer *casbin.Enforcer) {
 	// Options
 	handler.Use(gin.Logger())
 	handler.Use(gin.Recovery())
@@ -39,11 +40,11 @@ func NewRouter(handler *gin.Engine, l logger.Interface, t usecase.GoogleOAuth, u
 
 	g := handler.Group("")
 	{
-		newGoogleOAuthRoutesRoutes(g, t, l)
+		newGoogleOAuthRoutesRoutes(g, s.GoogleOAuth, l, casbinEnforcer)
 	}
 
 	h := handler.Group("/v1")
 	{
-		newUserRoutes(h, userUseCase, l)
+		newUserRoutes(h, s.User, l, casbinEnforcer)
 	}
 }

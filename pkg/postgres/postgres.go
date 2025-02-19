@@ -59,6 +59,10 @@ func (p *Postgres) Migrate() error {
 		&entity.User{},
 		&entity.Specialty{},
 		&entity.Qualification{},
+		&entity.Specialty{},
+		&entity.Discipline{},
+		&entity.DisciplineModule{},
+		&entity.DisciplineModuleTopic{},
 	)
 
 	if err != nil {

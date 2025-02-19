@@ -2,6 +2,7 @@ package v1
 
 import (
 	"fmt"
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/ochinchind/docsproc/internal/usecase"
 	"github.com/ochinchind/docsproc/pkg/logger"
@@ -13,7 +14,7 @@ type googleOAuthRoutes struct {
 	l logger.Interface
 }
 
-func newGoogleOAuthRoutesRoutes(handler *gin.RouterGroup, t usecase.GoogleOAuth, l logger.Interface) {
+func newGoogleOAuthRoutesRoutes(handler *gin.RouterGroup, t usecase.GoogleOAuth, l logger.Interface, casbinEnforcer *casbin.Enforcer) {
 	r := &googleOAuthRoutes{t, l}
 
 	handler.GET("/google_login", r.googleLogin)

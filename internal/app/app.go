@@ -4,6 +4,7 @@ package app
 import (
 	"fmt"
 	"github.com/ochinchind/docsproc/internal/usecase"
+	"github.com/ochinchind/docsproc/pkg/casbin"
 	"os"
 	"os/signal"
 	"syscall"
@@ -39,6 +40,11 @@ func Run(cfg *config.Config) {
 		repo.New(pg),
 	)
 
+	services := usecase.NewServices(
+		googleOAuthUseCase,
+		userUseCase,
+	)
+
 	err = pg.Connect(cfg)
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - postgres.connect: %w", err))
@@ -49,11 +55,17 @@ func Run(cfg *config.Config) {
 		l.Fatal(fmt.Errorf("app - Run - postgres.Migrate: %w", err))
 	}
 
+	// init casbin
+	casbinEnforcer, err := casbin.InitCasbin()
+	if err != nil {
+		l.Fatal(err)
+	}
+
 	// HTTP Server
 	handler := gin.New()
 	handler.Static("/uploads", "./uploads")
 	handler.MaxMultipartMemory = 200 << 20
-	v1.NewRouter(handler, l, googleOAuthUseCase, userUseCase)
+	v1.NewRouter(handler, l, services, casbinEnforcer)
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 
 	// Waiting signal

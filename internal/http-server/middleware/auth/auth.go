@@ -21,12 +21,15 @@ func Auth() gin.HandlerFunc {
 			tokenString = tokenString[len(bearerPrefix):] // Extract the actual token
 		}
 
-		err := usecase.ValidateToken(tokenString)
+		claims, err := usecase.ValidateToken(tokenString)
 		if err != nil {
 			context.JSON(401, gin.H{"error": err.Error()})
 			context.Abort()
 			return
 		}
+
+		context.Set("auth_user_role", claims.Role)
+
 		context.Next()
 	}
 }

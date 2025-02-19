@@ -44,7 +44,7 @@ func (uc *GoogleOAuthUseCase) GoogleCallback(context *gin.Context) (string, erro
 	}
 
 	if user != (entity.User{}) {
-		tokenString, err := GenerateJWT(user.Email, user.Name)
+		tokenString, err := GenerateJWT(user.Email, user.Name, user.Role)
 		if err != nil {
 			return "", fmt.Errorf("GoogleOAuthUseCase - GoogleCallback - GenerateJWT: %w", err)
 		}
@@ -53,10 +53,12 @@ func (uc *GoogleOAuthUseCase) GoogleCallback(context *gin.Context) (string, erro
 	}
 
 	user = entity.User{
-		Email:   userInfo.Email,
-		Name:    userInfo.GivenName,
-		Surname: userInfo.FamilyName,
-		Picture: userInfo.Picture,
+		Email:    userInfo.Email,
+		Username: userInfo.Email,
+		Name:     userInfo.GivenName,
+		Role:     "user",
+		Surname:  userInfo.FamilyName,
+		Picture:  userInfo.Picture,
 	}
 
 	err = uc.userRepo.Create(context, user)
@@ -65,7 +67,7 @@ func (uc *GoogleOAuthUseCase) GoogleCallback(context *gin.Context) (string, erro
 		return "", fmt.Errorf("GoogleOAuthUseCase - GoogleCallback - uc.UserRepo.Create: %w", err)
 	}
 
-	tokenString, err := GenerateJWT(user.Email, user.Name)
+	tokenString, err := GenerateJWT(user.Email, user.Name, user.Role)
 	if err != nil {
 		return "", fmt.Errorf("GoogleOAuthUseCase - GoogleCallback - GenerateJWT: %w", err)
 	}
