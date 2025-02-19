@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/ochinchind/docsproc/internal/dto"
 	"github.com/ochinchind/docsproc/internal/entity"
 )
 
@@ -14,8 +15,10 @@ type (
 
 	// UserRepo -.
 	UserRepo interface {
+		GetByUsernameOrEmail(username, email string) (entity.User, error)
 		GetByEmail(email string) (entity.User, error)
-		Create(context *gin.Context, user entity.User) error
+		GetByUsername(username string) (entity.User, error)
+		Create(user entity.User) error
 		Get(context *gin.Context) ([]entity.User, int64, error)
 	}
 
@@ -32,5 +35,10 @@ type (
 
 	User interface {
 		Get(context *gin.Context) ([]entity.User, int64, error)
+	}
+
+	Auth interface {
+		Login(dto *dto.LoginDTO) (string, error)
+		Register(dto *dto.RegisterDTO) (string, error)
 	}
 )

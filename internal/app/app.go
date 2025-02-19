@@ -40,9 +40,14 @@ func Run(cfg *config.Config) {
 		repo.New(pg),
 	)
 
+	authUseCase := usecase.NewAuthUseCase(
+		repo.New(pg),
+	)
+
 	services := usecase.NewServices(
 		googleOAuthUseCase,
 		userUseCase,
+		authUseCase,
 	)
 
 	err = pg.Connect(cfg)

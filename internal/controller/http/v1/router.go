@@ -41,6 +41,7 @@ func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, cas
 	g := handler.Group("")
 	{
 		newGoogleOAuthRoutesRoutes(g, s.GoogleOAuth, l, casbinEnforcer)
+		newAuthRoutes(g, s.Auth, l)
 	}
 
 	h := handler.Group("/v1")

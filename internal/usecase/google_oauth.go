@@ -61,7 +61,7 @@ func (uc *GoogleOAuthUseCase) GoogleCallback(context *gin.Context) (string, erro
 		Picture:  userInfo.Picture,
 	}
 
-	err = uc.userRepo.Create(context, user)
+	err = uc.userRepo.Create(user)
 
 	if err != nil {
 		return "", fmt.Errorf("GoogleOAuthUseCase - GoogleCallback - uc.UserRepo.Create: %w", err)

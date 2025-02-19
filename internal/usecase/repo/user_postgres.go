@@ -19,6 +19,22 @@ func New(pg *postgres.Postgres) *UserRepo {
 	}
 }
 
+// GetByUsernameOrEmail -.
+func (r *UserRepo) GetByUsernameOrEmail(username, email string) (entity.User, error) {
+	var user entity.User
+	r.Postgres.Conn.Where("username = ? OR email = ?", username, email).First(&user)
+
+	return user, nil
+}
+
+// GetByUsername -.
+func (r *UserRepo) GetByUsername(username string) (entity.User, error) {
+	var user entity.User
+	r.Postgres.Conn.Where("username = ?", username).First(&user)
+
+	return user, nil
+}
+
 // GetByEmail -.
 func (r *UserRepo) GetByEmail(email string) (entity.User, error) {
 	var user entity.User
@@ -28,7 +44,7 @@ func (r *UserRepo) GetByEmail(email string) (entity.User, error) {
 }
 
 // Create -.
-func (r *UserRepo) Create(context *gin.Context, user entity.User) error {
+func (r *UserRepo) Create(user entity.User) error {
 	r.Postgres.Conn.Create(&user)
 
 	return nil

@@ -1,6 +1,9 @@
 package entity
 
-import "time"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Discipline struct {
 	ID                uint               `json:"id"               example:"1"                                    gorm:"primaryKey:autoIncrement;"`
@@ -23,6 +26,6 @@ type Discipline struct {
 	QualificationID   uint               `json:"qualification_id" example:"1"                                gorm:"type:bigint;index;not null"`
 	CreatedAt         time.Time          `json:"created_at"       example:"2021-01-01T00:00:00Z"                 gorm:"autoCreateTime"`
 	UpdatedAt         time.Time          `json:"updated_at"       example:"2021-01-01T00:00:00Z"                 gorm:"autoUpdateTime"`
-	DeletedAt         time.Time          `json:"-"                example:"2021-01-01T00:00:00Z"                 gorm:"type:timestamp;"`
+	DeletedAt         gorm.DeletedAt     `json:"-"            example:"2021-01-01T00:00:00Z"                 gorm:"index"`
 	DisciplineModules []DisciplineModule `json:"discipline_modules"                                                 gorm:"foreignKey:DisciplineID;references:ID"`
 }

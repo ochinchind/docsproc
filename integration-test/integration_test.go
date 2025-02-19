@@ -85,7 +85,7 @@ func TestHTTPDoTranslate(t *testing.T) {
 		Send().Headers("Content-Type").Add("application/json"),
 		Send().Body().String(body),
 		Expect().Status().Equal(http.StatusBadRequest),
-		Expect().Body().JSON().JQ(".error").Equal("invalid request body"),
+		Expect().Body().JSON().JQ(".error").Equal("invalid dto body"),
 	)
 }
 
