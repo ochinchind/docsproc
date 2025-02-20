@@ -102,6 +102,18 @@ definitions:
     - name
     - qualification_id
     type: object
+  dto.StoreDisciplineModuleDTO:
+    properties:
+      discipline_id:
+        example: 1
+        type: integer
+      name:
+        example: DisciplineModule Name
+        type: string
+    required:
+    - discipline_id
+    - name
+    type: object
   dto.StoreQualificationDTO:
     properties:
       code:
@@ -183,6 +195,15 @@ definitions:
       qualification_id:
         example: 1
         type: integer
+    type: object
+  dto.UpdateDisciplineModuleDTO:
+    properties:
+      discipline_id:
+        example: 1
+        type: integer
+      name:
+        example: DisciplineModule Name
+        type: string
     type: object
   dto.UpdateProfileDTO:
     properties:
@@ -469,6 +490,15 @@ definitions:
         example: johndoe
         type: string
     type: object
+  v1.getDisciplineModulesResponse:
+    properties:
+      disciplineModules:
+        items:
+          $ref: '#/definitions/entity.DisciplineModule'
+        type: array
+      total:
+        type: integer
+    type: object
   v1.getDisciplinesResponse:
     properties:
       disciplines:
@@ -637,6 +667,107 @@ paths:
       summary: User Registration
       tags:
       - Auth
+  /v1/disciplineModules:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of disciplineModules.
+      operationId: get_disciplineModules
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineModule list
+          schema:
+            $ref: '#/definitions/v1.getDisciplineModulesResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get DisciplineModules
+      tags:
+      - DisciplineModules
+    post:
+      consumes:
+      - application/json
+      description: Store a new disciplineModule.
+      operationId: store_disciplineModule
+      parameters:
+      - description: DisciplineModule request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreDisciplineModuleDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store DisciplineModule
+      tags:
+      - DisciplineModules
+  /v1/disciplineModules/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a disciplineModule.
+      operationId: delete_disciplineModule
+      parameters:
+      - description: DisciplineModule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete DisciplineModule
+      tags:
+      - DisciplineModules
+    get:
+      consumes:
+      - application/json
+      description: Fetch a disciplineModule by ID.
+      operationId: get_disciplineModule
+      parameters:
+      - description: DisciplineModule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineModule
+          schema:
+            $ref: '#/definitions/entity.DisciplineModule'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get DisciplineModule
+      tags:
+      - DisciplineModules
   /v1/disciplines:
     get:
       consumes:

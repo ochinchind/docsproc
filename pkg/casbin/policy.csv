@@ -5,3 +5,5 @@ p, admin, qualification, read
 p, admin, qualification, write
 p, admin, discipline, read
 p, admin, discipline, write
+p, admin, disciplineModule, read
+p, admin, disciplineModule, write

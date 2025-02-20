@@ -98,6 +98,24 @@ type (
 		GetByID(id int) (*entity.Discipline, error)
 	}
 
+	// DisciplineModule -.
+	DisciplineModule interface {
+		Get(context *gin.Context) ([]entity.DisciplineModule, int64, error)
+		GetByID(id int) (*entity.DisciplineModule, error)
+		Update(id int, disciplineModule *dto.UpdateDisciplineModuleDTO) error
+		Store(disciplineModule *dto.StoreDisciplineModuleDTO) error
+		Delete(id int) error
+	}
+
+	// DisciplineModuleRepo -.
+	DisciplineModuleRepo interface {
+		Get(context *gin.Context) ([]entity.DisciplineModule, int64, error)
+		Update(disciplineModule *entity.DisciplineModule) error
+		Delete(disciplineModule *entity.DisciplineModule) error
+		Store(disciplineModule *entity.DisciplineModule) error
+		GetByID(id int) (*entity.DisciplineModule, error)
+	}
+
 	// Auth -.
 	Auth interface {
 		Login(dto *dto.LoginDTO) (string, error)
