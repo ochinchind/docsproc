@@ -49,5 +49,6 @@ func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, cas
 	{
 		newUserRoutes(h, s.User, l, casbinEnforcer, rd)
 		newSpecialtyRoutes(h, s.Specialty, l, casbinEnforcer, rd)
+		newQualificationRoutes(h, s.Qualification, l, casbinEnforcer, rd)
 	}
 }

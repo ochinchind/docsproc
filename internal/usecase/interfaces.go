@@ -49,7 +49,7 @@ type (
 		Get(context *gin.Context) ([]entity.Specialty, int64, error)
 		GetByID(id int) (*entity.Specialty, error)
 		Update(id int, specialty *dto.UpdateSpecialtyDTO) error
-		Create(specialty *entity.Specialty) error
+		Store(specialty *dto.StoreSpecialtyDTO) error
 		Delete(id int) error
 	}
 
@@ -58,8 +58,26 @@ type (
 		Get(context *gin.Context) ([]entity.Specialty, int64, error)
 		Update(specialty *entity.Specialty) error
 		Delete(specialty *entity.Specialty) error
-		Create(specialty *entity.Specialty) error
+		Store(specialty *entity.Specialty) error
 		GetByID(id int) (*entity.Specialty, error)
+	}
+
+	// Qualification -.
+	Qualification interface {
+		Get(context *gin.Context) ([]entity.Qualification, int64, error)
+		GetByID(id int) (*entity.Qualification, error)
+		Update(id int, specialty *dto.UpdateQualificationDTO) error
+		Store(specialty *dto.StoreQualificationDTO) error
+		Delete(id int) error
+	}
+
+	// QualificationRepo -.
+	QualificationRepo interface {
+		Get(context *gin.Context) ([]entity.Qualification, int64, error)
+		Update(specialty *entity.Qualification) error
+		Delete(specialty *entity.Qualification) error
+		Store(specialty *entity.Qualification) error
+		GetByID(id int) (*entity.Qualification, error)
 	}
 
 	// Auth -.

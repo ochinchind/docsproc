@@ -45,6 +45,73 @@ definitions:
     - password
     - username
     type: object
+  dto.StoreQualificationDTO:
+    properties:
+      code:
+        example: "00342342413"
+        type: string
+      name:
+        example: Qualification Name
+        type: string
+      specialty_id:
+        example: 1
+        type: integer
+    required:
+    - code
+    - name
+    - specialty_id
+    type: object
+  dto.StoreSpecialtyDTO:
+    properties:
+      code:
+        example: "00342342413"
+        type: string
+      name:
+        example: Specialty Name
+        type: string
+    required:
+    - code
+    - name
+    type: object
+  dto.UpdateProfileDTO:
+    properties:
+      name:
+        example: John Doe
+        type: string
+      password:
+        example: password
+        type: string
+      phone:
+        example: "+1234567890"
+        type: string
+      surname:
+        example: Doe
+        type: string
+      username:
+        example: john.doe
+        type: string
+    type: object
+  dto.UpdateQualificationDTO:
+    properties:
+      code:
+        example: "00342342413"
+        type: string
+      name:
+        example: Qualification Name
+        type: string
+      specialty_id:
+        example: 1
+        type: integer
+    type: object
+  dto.UpdateSpecialtyDTO:
+    properties:
+      code:
+        example: "00342342413"
+        type: string
+      name:
+        example: Specialty Name
+        type: string
+    type: object
   dto.UpdateUserDTO:
     properties:
       email:
@@ -72,6 +139,188 @@ definitions:
       username:
         example: john.doe
         type: string
+    type: object
+  entity.Discipline:
+    properties:
+      assessment_type:
+        example: exam
+        type: string
+      code:
+        example: JHN
+        type: string
+      competencies:
+        example: 1,2,3
+        type: string
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      desc:
+        example: John Doe
+        type: string
+      discipline_modules:
+        items:
+          $ref: '#/definitions/entity.DisciplineModule'
+        type: array
+      hours_individual:
+        example: 0
+        type: integer
+      hours_internship:
+        example: 0
+        type: integer
+      hours_practice:
+        example: 50
+        type: integer
+      hours_self_study:
+        example: 0
+        type: integer
+      hours_theory:
+        example: 50
+        type: integer
+      hours_total:
+        example: 100
+        type: integer
+      hours_with_teacher:
+        example: 0
+        type: integer
+      id:
+        example: 1
+        type: integer
+      lang:
+        example: en
+        type: string
+      name:
+        example: John
+        type: string
+      necessities:
+        example: 1,2,3
+        type: string
+      post_requisites:
+        example: 1,2,3
+        type: string
+      pre_requisites:
+        example: 1,2,3
+        type: string
+      qualification_id:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+    type: object
+  entity.DisciplineModule:
+    properties:
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      discipline_id:
+        example: 1
+        type: integer
+      discipline_module_topics:
+        items:
+          $ref: '#/definitions/entity.DisciplineModuleTopic'
+        type: array
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John
+        type: string
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+    type: object
+  entity.DisciplineModuleTopic:
+    properties:
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      discipline_module_id:
+        example: 1
+        type: integer
+      hours_individual:
+        example: 0
+        type: integer
+      hours_internship:
+        example: 0
+        type: integer
+      hours_practice:
+        example: 50
+        type: integer
+      hours_self_study:
+        example: 0
+        type: integer
+      hours_theory:
+        example: 50
+        type: integer
+      hours_with_teacher:
+        example: 0
+        type: integer
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John
+        type: string
+      type:
+        example: practice
+        type: string
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+    type: object
+  entity.Qualification:
+    properties:
+      code:
+        example: JHN
+        type: string
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      disciplines:
+        items:
+          $ref: '#/definitions/entity.Discipline'
+        type: array
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John
+        type: string
+      specialty_id:
+        example: 1
+        type: integer
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+    required:
+    - code
+    - name
+    - specialty_id
+    type: object
+  entity.Specialty:
+    properties:
+      code:
+        example: JHN
+        type: string
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John
+        type: string
+      qualifications:
+        items:
+          $ref: '#/definitions/entity.Qualification'
+        type: array
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+    required:
+    - code
+    - name
     type: object
   entity.User:
     properties:
@@ -109,6 +358,24 @@ definitions:
         example: johndoe
         type: string
     type: object
+  v1.getQualificationsResponse:
+    properties:
+      qualifications:
+        items:
+          $ref: '#/definitions/entity.Qualification'
+        type: array
+      total:
+        type: integer
+    type: object
+  v1.getSpecialtiesResponse:
+    properties:
+      specialties:
+        items:
+          $ref: '#/definitions/entity.Specialty'
+        type: array
+      total:
+        type: integer
+    type: object
   v1.getUsersResponse:
     properties:
       total:
@@ -130,7 +397,7 @@ definitions:
     type: object
   v1.response:
     properties:
-      error:
+      message:
         example: message
         type: string
     type: object
@@ -250,6 +517,208 @@ paths:
       summary: User Registration
       tags:
       - Auth
+  /v1/qualifications:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of qualifications.
+      operationId: get_qualifications
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with qualification list
+          schema:
+            $ref: '#/definitions/v1.getQualificationsResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Qualifications
+      tags:
+      - Qualifications
+    post:
+      consumes:
+      - application/json
+      description: Store a new qualification.
+      operationId: store_qualification
+      parameters:
+      - description: Qualification request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreQualificationDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store Qualification
+      tags:
+      - Qualifications
+  /v1/qualifications/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a qualification.
+      operationId: delete_qualification
+      parameters:
+      - description: Qualification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete Qualification
+      tags:
+      - Qualifications
+    get:
+      consumes:
+      - application/json
+      description: Fetch a qualification by ID.
+      operationId: get_qualification
+      parameters:
+      - description: Qualification ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with qualification
+          schema:
+            $ref: '#/definitions/entity.Qualification'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Qualification
+      tags:
+      - Qualifications
+  /v1/specialties:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of specialties.
+      operationId: get_specialties
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with specialty list
+          schema:
+            $ref: '#/definitions/v1.getSpecialtiesResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Specialties
+      tags:
+      - Specialties
+    post:
+      consumes:
+      - application/json
+      description: Store a new specialty.
+      operationId: store_specialty
+      parameters:
+      - description: Specialty request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreSpecialtyDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store Specialty
+      tags:
+      - Specialties
+  /v1/specialties/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a specialty.
+      operationId: delete_specialty
+      parameters:
+      - description: Specialty ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete Specialty
+      tags:
+      - Specialties
+    get:
+      consumes:
+      - application/json
+      description: Fetch a specialty by ID.
+      operationId: get_specialty
+      parameters:
+      - description: Specialty ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with specialty
+          schema:
+            $ref: '#/definitions/entity.Specialty'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Specialty
+      tags:
+      - Specialties
   /v1/users:
     get:
       consumes:
@@ -271,6 +740,31 @@ paths:
       tags:
       - Users
   /v1/users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing user by providing user ID.
+      operationId: delete_user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete User
+      tags:
+      - Users
     get:
       consumes:
       - application/json
@@ -330,6 +824,37 @@ paths:
           schema:
             $ref: '#/definitions/v1.response'
       summary: Update User
+      tags:
+      - Users
+  /v1/users/myprofile:
+    patch:
+      consumes:
+      - application/json
+      description: Update profile details of the currently authenticated user.
+      operationId: update_profile
+      parameters:
+      - description: User update data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateProfileDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User profile successfully updated
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request body
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Update Profile
       tags:
       - Users
 swagger: "2.0"

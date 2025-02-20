@@ -27,7 +27,7 @@ func newSpecialtyRoutes(handler *gin.RouterGroup, t usecase.Specialty, l logger.
 	{
 		h.GET("", permission.Permission(casbinEnforcer, "specialty", "read"), r.getSpecialties)
 		h.GET("/:id", permission.Permission(casbinEnforcer, "specialty", "read"), r.get)
-		h.POST("", permission.Permission(casbinEnforcer, "specialty", "write"), r.create)
+		h.POST("", permission.Permission(casbinEnforcer, "specialty", "write"), r.store)
 		h.PATCH("/:id", permission.Permission(casbinEnforcer, "specialty", "write"), r.update)
 		h.DELETE("/:id", permission.Permission(casbinEnforcer, "specialty", "write"), r.delete)
 	}
@@ -125,33 +125,33 @@ func (r specialtyRoutes) update(context *gin.Context) {
 	context.JSON(http.StatusOK, response{Message: "Successfully updated"})
 }
 
-// Create a new specialty.
+// Store a new specialty.
 //
-// @Summary      Create Specialty
-// @Description  Create a new specialty.
-// @ID           create_specialty
+// @Summary      Store Specialty
+// @Description  Store a new specialty.
+// @ID           store_specialty
 // @Tags         Specialties
 // @Accept       json
 // @Produce      json
-// @Param        request body entity.Specialty true "Specialty request body"
-// @Success      200 {object} response "Successfully created"
+// @Param        request body dto.StoreSpecialtyDTO true "Specialty request body"
+// @Success      200 {object} response "Successfully stored"
 // @Failure      400 {object} response "Invalid request payload"
 // @Failure      500 {object} response "Internal server error"
 // @Router       /v1/specialties [post]
-func (r specialtyRoutes) create(context *gin.Context) {
-	var specialty = &entity.Specialty{}
+func (r specialtyRoutes) store(context *gin.Context) {
+	var specialty = &dto.StoreSpecialtyDTO{}
 	if err := context.BindJSON(specialty); err != nil {
 		context.JSON(http.StatusBadRequest, response{err.Error()})
 		return
 	}
 
-	err := r.t.Create(specialty)
+	err := r.t.Store(specialty)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, response{err.Error()})
 		return
 	}
 
-	context.JSON(http.StatusOK, response{Message: "Successfully created"})
+	context.JSON(http.StatusOK, response{Message: "Successfully stored"})
 }
 
 // Delete a specialty.

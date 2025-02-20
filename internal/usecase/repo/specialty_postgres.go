@@ -21,11 +21,11 @@ func NewSpecialtyRepo(pg *postgres.Postgres) *SpecialtyRepo {
 	}
 }
 
-// Create -.
-func (r *SpecialtyRepo) Create(specialties *entity.Specialty) error {
-	r.Postgres.Conn.Create(&specialties)
+// Store -.
+func (r *SpecialtyRepo) Store(specialties *entity.Specialty) error {
+	err := r.Postgres.Conn.Create(&specialties).Error
 
-	return nil
+	return err
 }
 
 // Update -.

@@ -178,6 +178,308 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/qualifications": {
+            "get": {
+                "description": "Fetch a list of qualifications.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Qualifications"
+                ],
+                "summary": "Get Qualifications",
+                "operationId": "get_qualifications",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with qualification list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getQualificationsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Store a new qualification.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Qualifications"
+                ],
+                "summary": "Store Qualification",
+                "operationId": "store_qualification",
+                "parameters": [
+                    {
+                        "description": "Qualification request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StoreQualificationDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully stored",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/qualifications/{id}": {
+            "get": {
+                "description": "Fetch a qualification by ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Qualifications"
+                ],
+                "summary": "Get Qualification",
+                "operationId": "get_qualification",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Qualification ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with qualification",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Qualification"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a qualification.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Qualifications"
+                ],
+                "summary": "Delete Qualification",
+                "operationId": "delete_qualification",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Qualification ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/specialties": {
+            "get": {
+                "description": "Fetch a list of specialties.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Specialties"
+                ],
+                "summary": "Get Specialties",
+                "operationId": "get_specialties",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with specialty list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getSpecialtiesResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Store a new specialty.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Specialties"
+                ],
+                "summary": "Store Specialty",
+                "operationId": "store_specialty",
+                "parameters": [
+                    {
+                        "description": "Specialty request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StoreSpecialtyDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully stored",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/specialties/{id}": {
+            "get": {
+                "description": "Fetch a specialty by ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Specialties"
+                ],
+                "summary": "Get Specialty",
+                "operationId": "get_specialty",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Specialty ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with specialty",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Specialty"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a specialty.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Specialties"
+                ],
+                "summary": "Delete Specialty",
+                "operationId": "delete_specialty",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Specialty ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users": {
             "get": {
                 "description": "Fetch a paginated list of users.",
@@ -197,6 +499,53 @@ const docTemplate = `{
                         "description": "Successful response with user list",
                         "schema": {
                             "$ref": "#/definitions/v1.getUsersResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/myprofile": {
+            "patch": {
+                "description": "Update profile details of the currently authenticated user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update Profile",
+                "operationId": "update_profile",
+                "parameters": [
+                    {
+                        "description": "User update data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateProfileDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User profile successfully updated",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
                         }
                     },
                     "500": {
@@ -236,6 +585,43 @@ const docTemplate = `{
                         "description": "Successful response with user details",
                         "schema": {
                             "$ref": "#/definitions/entity.User"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing user by providing user ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete User",
+                "operationId": "delete_user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
                         }
                     },
                     "500": {
@@ -362,6 +748,100 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.StoreQualificationDTO": {
+            "type": "object",
+            "required": [
+                "code",
+                "name",
+                "specialty_id"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "00342342413"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Qualification Name"
+                },
+                "specialty_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dto.StoreSpecialtyDTO": {
+            "type": "object",
+            "required": [
+                "code",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "00342342413"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Specialty Name"
+                }
+            }
+        },
+        "dto.UpdateProfileDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+1234567890"
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "john.doe"
+                }
+            }
+        },
+        "dto.UpdateQualificationDTO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "00342342413"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Qualification Name"
+                },
+                "specialty_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "dto.UpdateSpecialtyDTO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "00342342413"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Specialty Name"
+                }
+            }
+        },
         "dto.UpdateUserDTO": {
             "type": "object",
             "properties": {
@@ -397,6 +877,256 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "john.doe"
+                }
+            }
+        },
+        "entity.Discipline": {
+            "type": "object",
+            "properties": {
+                "assessment_type": {
+                    "type": "string",
+                    "example": "exam"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "JHN"
+                },
+                "competencies": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "desc": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "discipline_modules": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.DisciplineModule"
+                    }
+                },
+                "hours_individual": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_internship": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_practice": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_self_study": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_theory": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_total": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "hours_with_teacher": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "lang": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "necessities": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "post_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "pre_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "qualification_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
+        "entity.DisciplineModule": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "discipline_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "discipline_module_topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.DisciplineModuleTopic"
+                    }
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
+        "entity.DisciplineModuleTopic": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "discipline_module_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "hours_individual": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_internship": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_practice": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_self_study": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_theory": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_with_teacher": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "practice"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
+        "entity.Qualification": {
+            "type": "object",
+            "required": [
+                "code",
+                "name",
+                "specialty_id"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "JHN"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "disciplines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Discipline"
+                    }
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "specialty_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
+        "entity.Specialty": {
+            "type": "object",
+            "required": [
+                "code",
+                "name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "JHN"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "qualifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Qualification"
+                    }
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
                 }
             }
         },
@@ -449,6 +1179,34 @@ const docTemplate = `{
                 }
             }
         },
+        "v1.getQualificationsResponse": {
+            "type": "object",
+            "properties": {
+                "qualifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Qualification"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.getSpecialtiesResponse": {
+            "type": "object",
+            "properties": {
+                "specialties": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Specialty"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "v1.getUsersResponse": {
             "type": "object",
             "properties": {
@@ -482,7 +1240,7 @@ const docTemplate = `{
         "v1.response": {
             "type": "object",
             "properties": {
-                "error": {
+                "message": {
                     "type": "string",
                     "example": "message"
                 }

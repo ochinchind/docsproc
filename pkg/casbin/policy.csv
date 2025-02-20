@@ -1,3 +1,5 @@
 p, admin, user, write
 p, admin, specialty, read
 p, admin, specialty, write
+p, admin, qualification, read
+p, admin, qualification, write

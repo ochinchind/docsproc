@@ -74,9 +74,14 @@ func (uc *SpecialtyUseCase) Update(id int, specialty *dto.UpdateSpecialtyDTO) er
 	return nil
 }
 
-// Create -.
-func (uc *SpecialtyUseCase) Create(specialty *entity.Specialty) error {
-	err := uc.specialtyRepo.Create(specialty)
+// Store -.
+func (uc *SpecialtyUseCase) Store(specialty *dto.StoreSpecialtyDTO) error {
+	specialtyEntity := &entity.Specialty{
+		Name: specialty.Name,
+		Code: specialty.Code,
+	}
+
+	err := uc.specialtyRepo.Store(specialtyEntity)
 
 	if err != nil {
 		return err
