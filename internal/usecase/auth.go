@@ -31,7 +31,7 @@ func (uc *AuthUseCase) Login(dto *dto.LoginDTO) (string, error) {
 		return "", fmt.Errorf("user not found")
 	}
 
-	if utils.VerifyPassword(dto.Password, user.Password) {
+	if !utils.VerifyPassword(user.Password, dto.Password) {
 		return "", fmt.Errorf("wrong password")
 	}
 
@@ -76,7 +76,7 @@ func (uc *AuthUseCase) Register(dto *dto.RegisterDTO) (string, error) {
 		Role:     dto.Role,
 	}
 
-	err = uc.userRepo.Create(user)
+	err = uc.userRepo.Create(&user)
 
 	if err != nil {
 		return "", fmt.Errorf("AuthUseCase - uc.UserRepo.Create: %w", err)

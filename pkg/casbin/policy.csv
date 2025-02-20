@@ -1,5 +1,1 @@
-g, alice, role:admin
-g, bob, role:user
-p, role:admin, data, read
-p, role:admin, data, write
-p, user, /v1/users, view
+p, admin, user, write

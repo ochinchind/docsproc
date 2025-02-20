@@ -24,15 +24,20 @@ type loginResponse struct {
 	Token string `json:"token"`
 }
 
-// @Summary     Login
-// @Description Login
-// @ID          login
-// @Tags  	    Auth
-// @Accept      json
-// @Produce     json
-// @Success     303 {object} loginResponse
-// @Failure     500 {object} response
-// @Router      /v1/login [POST]
+// Login handles user authentication and token generation.
+//
+// @Summary      User Login
+// @Description  Authenticates a user and returns an access token.
+// @ID           login
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request body dto.LoginDTO true "Login request body"
+// @Success      200 {object} loginResponse "Successfully authenticated"
+// @Failure      400 {object} response "Invalid credentials"
+// @Failure      406 {object} response "Invalid request payload"
+// @Failure      500 {object} response "Internal server error"
+// @Router       /login [post]
 func (r authRoutes) login(context *gin.Context) {
 	var loginDTO = &dto.LoginDTO{}
 	if err := context.BindJSON(loginDTO); err != nil {
@@ -50,15 +55,20 @@ func (r authRoutes) login(context *gin.Context) {
 	context.JSON(http.StatusOK, loginResponse{token})
 }
 
-// @Summary     Register
-// @Description Register
-// @ID          register
-// @Tags  	    Auth
-// @Accept      json
-// @Produce     json
-// @Success     200 {object} loginResponse
-// @Failure     500 {object} response
-// @Router      /v1/register [POST]
+// Register handles new user registration.
+//
+// @Summary      User Registration
+// @Description  Registers a new user and returns an access token.
+// @ID           register
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request body dto.RegisterDTO true "Register request body"
+// @Success      200 {object} loginResponse "Successfully registered"
+// @Failure      400 {object} response "Invalid request data"
+// @Failure      406 {object} response "Invalid request payload"
+// @Failure      500 {object} response "Internal server error"
+// @Router       /register [post]
 func (r authRoutes) register(context *gin.Context) {
 	var registerDTO = &dto.RegisterDTO{}
 	if err := context.BindJSON(registerDTO); err != nil {

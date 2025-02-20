@@ -15,202 +15,285 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/tours": {
+        "/google_callback": {
             "get": {
-                "description": "Fetch a list of all available tours.",
+                "description": "Handles Google's OAuth callback, processes authentication, and returns an access token.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tours"
+                    "GoogleOAuth"
                 ],
-                "summary": "Get all tours",
+                "summary": "Google OAuth Callback",
+                "operationId": "google_callback",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Successfully authenticated",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/entity.TourDocs"
-                            }
+                            "$ref": "#/definitions/v1.googleCallbackResponse"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/google_login": {
+            "get": {
+                "description": "Redirects the user to Google's OAuth authentication page.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GoogleOAuth"
+                ],
+                "summary": "Google Login",
+                "operationId": "google_login",
+                "responses": {
+                    "303": {
+                        "description": "Redirect to Google login"
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Authenticates a user and returns an access token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User Login",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "description": "Login request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.LoginDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully authenticated",
+                        "schema": {
+                            "$ref": "#/definitions/v1.loginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid credentials",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "406": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "Registers a new user and returns an access token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User Registration",
+                "operationId": "register",
+                "parameters": [
+                    {
+                        "description": "Register request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RegisterDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully registered",
+                        "schema": {
+                            "$ref": "#/definitions/v1.loginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request data",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "406": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users": {
+            "get": {
+                "description": "Fetch a paginated list of users.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get Users",
+                "operationId": "get_users",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with user list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getUsersResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/{id}": {
+            "get": {
+                "description": "Fetch details of a user by their ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get User",
+                "operationId": "get_user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with user details",
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
                         }
                     }
                 }
             },
-            "post": {
-                "description": "Create a new tour with images and videos.",
+            "patch": {
+                "description": "Update details of an existing user by providing user ID and update data.",
                 "consumes": [
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "tours"
+                    "Users"
                 ],
-                "summary": "Create a new tour",
+                "summary": "Update User",
+                "operationId": "update_user",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tour Description",
-                        "name": "description",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Tour Route",
-                        "name": "route",
-                        "in": "formData",
-                        "required": true
-                    },
                     {
                         "type": "integer",
-                        "description": "Tour Price",
-                        "name": "price",
-                        "in": "formData",
-                        "required": true
-                    },
-                    {
-                        "type": "file",
-                        "description": "Tour Images (multiple allowed)",
-                        "name": "images",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "file",
-                        "description": "Tour Videos (multiple allowed)",
-                        "name": "videos",
-                        "in": "formData"
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/entity.TourDocs"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/tours/{id}": {
-            "get": {
-                "description": "Fetch details of a specific tour by its UUID.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tours"
-                ],
-                "summary": "Get a tour by ID",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tour ID",
+                        "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "User update data",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserDTO"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User successfully updated",
                         "schema": {
-                            "$ref": "#/definitions/entity.TourDocs"
+                            "$ref": "#/definitions/v1.response"
                         }
                     },
                     "400": {
-                        "description": "Bad Request",
+                        "description": "Invalid request body",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/v1.response"
                         }
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/tours/{id}/": {
-            "get": {
-                "description": "Fetches images and videos for a specific tour by ID.Example http://localhost:8080/uploads/videos/4f72a1cb-6ed4-4f01-b38b-b605d3062236.mp4.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tours"
-                ],
-                "summary": "Get static files for a tour",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Tour ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Returns a list of image and video URLs.",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid Tour ID",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Tour not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/v1.response"
                         }
                     }
                 }
@@ -218,69 +301,190 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entity.ImageDocs": {
+        "dto.LoginDTO": {
             "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
             "properties": {
-                "ID": {
-                    "type": "string"
+                "password": {
+                    "type": "string",
+                    "example": "password"
                 },
-                "image_bytes": {
-                    "type": "string"
-                },
-                "tour_id": {
-                    "type": "string"
+                "username": {
+                    "type": "string",
+                    "example": "john.doe"
                 }
             }
         },
-        "entity.TourDocs": {
+        "dto.RegisterDTO": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "abc@example.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+1234567890"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "admin",
+                        "user",
+                        "methodologist"
+                    ],
+                    "example": "user"
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "john.doe"
+                }
+            }
+        },
+        "dto.UpdateUserDTO": {
             "type": "object",
             "properties": {
-                "ID": {
-                    "type": "string"
+                "email": {
+                    "type": "string",
+                    "example": "abc@example.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+1234567890"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "admin",
+                        "user",
+                        "methodologist"
+                    ],
+                    "example": "user"
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "john.doe"
+                }
+            }
+        },
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "api_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
                 },
-                "deleted_at": {
-                    "type": "string"
+                "email": {
+                    "type": "string",
+                    "example": "abc@example.com"
                 },
-                "description": {
-                    "type": "string"
+                "id": {
+                    "type": "integer",
+                    "example": 1
                 },
-                "price": {
-                    "type": "integer"
+                "name": {
+                    "type": "string",
+                    "example": "John"
                 },
-                "route": {
-                    "type": "string"
+                "phone": {
+                    "type": "string",
+                    "example": "877755544434"
                 },
-                "tour_images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.ImageDocs"
-                    }
+                "picture": {
+                    "type": "string",
+                    "example": "https://example.com/picture.jpg"
                 },
-                "tour_videos": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/entity.VideoDocs"
-                    }
+                "role": {
+                    "type": "string",
+                    "example": "admin"
+                },
+                "surname": {
+                    "type": "string",
+                    "example": "Doe"
                 },
                 "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "johndoe"
+                }
+            }
+        },
+        "v1.getUsersResponse": {
+            "type": "object",
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.User"
+                    }
+                }
+            }
+        },
+        "v1.googleCallbackResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
                     "type": "string"
                 }
             }
         },
-        "entity.VideoDocs": {
+        "v1.loginResponse": {
             "type": "object",
             "properties": {
-                "ID": {
+                "token": {
                     "type": "string"
-                },
-                "tour_id": {
-                    "type": "string"
-                },
-                "video_bytes": {
-                    "type": "string"
+                }
+            }
+        },
+        "v1.response": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "message"
                 }
             }
         }

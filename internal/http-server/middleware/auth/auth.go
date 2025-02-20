@@ -29,6 +29,7 @@ func Auth() gin.HandlerFunc {
 		}
 
 		context.Set("auth_user_role", claims.Role)
+		context.Set("auth_user_email", claims.Email)
 
 		context.Next()
 	}

@@ -43,9 +43,24 @@ func (r *UserRepo) GetByEmail(email string) (entity.User, error) {
 	return user, nil
 }
 
+// GetByID -.
+func (r *UserRepo) GetByID(id int) (entity.User, error) {
+	var user entity.User
+	r.Postgres.Conn.Where("id = ?", id).First(&user)
+
+	return user, nil
+}
+
 // Create -.
-func (r *UserRepo) Create(user entity.User) error {
+func (r *UserRepo) Create(user *entity.User) error {
 	r.Postgres.Conn.Create(&user)
+
+	return nil
+}
+
+// Update -.
+func (r *UserRepo) Update(user *entity.User) error {
+	r.Postgres.Conn.Save(&user)
 
 	return nil
 }

@@ -18,8 +18,10 @@ type (
 		GetByUsernameOrEmail(username, email string) (entity.User, error)
 		GetByEmail(email string) (entity.User, error)
 		GetByUsername(username string) (entity.User, error)
-		Create(user entity.User) error
+		Create(user *entity.User) error
+		Update(user *entity.User) error
 		Get(context *gin.Context) ([]entity.User, int64, error)
+		GetByID(int) (entity.User, error)
 	}
 
 	// GoogleOAuthWebApi -.
@@ -35,6 +37,8 @@ type (
 
 	User interface {
 		Get(context *gin.Context) ([]entity.User, int64, error)
+		GetUser(context *gin.Context) (*entity.User, error)
+		Update(id int, dto *dto.UpdateUserDTO) error
 	}
 
 	Auth interface {

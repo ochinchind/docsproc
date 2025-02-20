@@ -1,12 +1,11 @@
 package permission
 
 import (
-	"fmt"
 	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
 
-func Permission(casbinEnforcer *casbin.Enforcer, permission string) gin.HandlerFunc {
+func Permission(casbinEnforcer *casbin.Enforcer, obj string, permission string) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		role, exists := context.Get("auth_user_role")
 
@@ -16,10 +15,7 @@ func Permission(casbinEnforcer *casbin.Enforcer, permission string) gin.HandlerF
 			return
 		}
 
-		path := context.Request.URL.Path
-		fmt.Println(path, role, permission)
-
-		exists, err := casbinEnforcer.Enforce(role, path, permission)
+		exists, err := casbinEnforcer.Enforce(role, obj, permission)
 
 		if err != nil {
 			context.JSON(500, gin.H{"error": err.Error()})

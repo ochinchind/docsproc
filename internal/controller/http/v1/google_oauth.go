@@ -21,15 +21,17 @@ func newGoogleOAuthRoutesRoutes(handler *gin.RouterGroup, t usecase.GoogleOAuth,
 	handler.GET("/google_callback", r.googleCallback)
 }
 
-// @Summary     Google login
-// @Description Google login
-// @ID          google_login
-// @Tags  	    GoogleOAuth
-// @Accept      json
-// @Produce     json
-// @Success     303 {object} googleLoginResponse
-// @Failure     500 {object} response
-// @Router      /google_login [get]
+// Google login initiates OAuth authentication with Google.
+//
+// @Summary      Google Login
+// @Description  Redirects the user to Google's OAuth authentication page.
+// @ID           google_login
+// @Tags         GoogleOAuth
+// @Accept       json
+// @Produce      json
+// @Success      303 "Redirect to Google login"
+// @Failure      500 {object} response "Internal server error"
+// @Router       /google_login [get]
 func (r googleOAuthRoutes) googleLogin(context *gin.Context) {
 	url := r.t.GoogleLogin()
 
@@ -42,15 +44,17 @@ type googleCallbackResponse struct {
 	Token string `json:"token"`
 }
 
-// @Summary     Google callback
-// @Description Google callback
-// @ID          google_callback
-// @Tags  	    GoogleOAuth
-// @Accept      json
-// @Produce     json
-// @Success     200 {object} googleCallbackResponse
-// @Failure     500 {object} response
-// @Router      /google_callback [get]
+// Google callback handles the OAuth callback from Google.
+//
+// @Summary      Google OAuth Callback
+// @Description  Handles Google's OAuth callback, processes authentication, and returns an access token.
+// @ID           google_callback
+// @Tags         GoogleOAuth
+// @Accept       json
+// @Produce      json
+// @Success      200 {object} googleCallbackResponse "Successfully authenticated"
+// @Failure      500 {object} response "Internal server error"
+// @Router       /google_callback [get]
 func (r googleOAuthRoutes) googleCallback(context *gin.Context) {
 	token, err := r.t.GoogleCallback(context)
 

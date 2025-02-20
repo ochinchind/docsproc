@@ -1,46 +1,137 @@
 basePath: /v1
 definitions:
-  entity.ImageDocs:
+  dto.LoginDTO:
     properties:
-      ID:
+      password:
+        example: password
         type: string
-      image_bytes:
+      username:
+        example: john.doe
         type: string
-      tour_id:
+    required:
+    - password
+    - username
+    type: object
+  dto.RegisterDTO:
+    properties:
+      email:
+        example: abc@example.com
+        type: string
+      name:
+        example: John Doe
+        type: string
+      password:
+        example: password
+        type: string
+      phone:
+        example: "+1234567890"
+        type: string
+      role:
+        enum:
+        - admin
+        - user
+        - methodologist
+        example: user
+        type: string
+      surname:
+        example: Doe
+        type: string
+      username:
+        example: john.doe
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - username
+    type: object
+  dto.UpdateUserDTO:
+    properties:
+      email:
+        example: abc@example.com
+        type: string
+      name:
+        example: John Doe
+        type: string
+      password:
+        example: password
+        type: string
+      phone:
+        example: "+1234567890"
+        type: string
+      role:
+        enum:
+        - admin
+        - user
+        - methodologist
+        example: user
+        type: string
+      surname:
+        example: Doe
+        type: string
+      username:
+        example: john.doe
         type: string
     type: object
-  entity.TourDocs:
+  entity.User:
     properties:
-      ID:
+      api_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
         type: string
       created_at:
+        example: "2021-01-01T00:00:00Z"
         type: string
-      deleted_at:
+      email:
+        example: abc@example.com
         type: string
-      description:
-        type: string
-      price:
+      id:
+        example: 1
         type: integer
-      route:
+      name:
+        example: John
         type: string
-      tour_images:
-        items:
-          $ref: '#/definitions/entity.ImageDocs'
-        type: array
-      tour_videos:
-        items:
-          $ref: '#/definitions/entity.VideoDocs'
-        type: array
+      phone:
+        example: "877755544434"
+        type: string
+      picture:
+        example: https://example.com/picture.jpg
+        type: string
+      role:
+        example: admin
+        type: string
+      surname:
+        example: Doe
+        type: string
       updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      username:
+        example: johndoe
         type: string
     type: object
-  entity.VideoDocs:
+  v1.getUsersResponse:
     properties:
-      ID:
+      total:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/entity.User'
+        type: array
+    type: object
+  v1.googleCallbackResponse:
+    properties:
+      token:
         type: string
-      tour_id:
+    type: object
+  v1.loginResponse:
+    properties:
+      token:
         type: string
-      video_bytes:
+    type: object
+  v1.response:
+    properties:
+      error:
+        example: message
         type: string
     type: object
 host: localhost:8080
@@ -50,138 +141,195 @@ info:
   title: Go Clean Template API
   version: "1.0"
 paths:
-  /tours:
+  /google_callback:
     get:
-      description: Fetch a list of all available tours.
+      consumes:
+      - application/json
+      description: Handles Google's OAuth callback, processes authentication, and
+        returns an access token.
+      operationId: google_callback
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Successfully authenticated
           schema:
-            items:
-              $ref: '#/definitions/entity.TourDocs'
-            type: array
+            $ref: '#/definitions/v1.googleCallbackResponse'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get all tours
+            $ref: '#/definitions/v1.response'
+      summary: Google OAuth Callback
       tags:
-      - tours
+      - GoogleOAuth
+  /google_login:
+    get:
+      consumes:
+      - application/json
+      description: Redirects the user to Google's OAuth authentication page.
+      operationId: google_login
+      produces:
+      - application/json
+      responses:
+        "303":
+          description: Redirect to Google login
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Google Login
+      tags:
+      - GoogleOAuth
+  /login:
     post:
       consumes:
-      - multipart/form-data
-      description: Create a new tour with images and videos.
+      - application/json
+      description: Authenticates a user and returns an access token.
+      operationId: login
       parameters:
-      - description: Tour Description
-        in: formData
-        name: description
+      - description: Login request body
+        in: body
+        name: request
         required: true
-        type: string
-      - description: Tour Route
-        in: formData
-        name: route
+        schema:
+          $ref: '#/definitions/dto.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully authenticated
+          schema:
+            $ref: '#/definitions/v1.loginResponse'
+        "400":
+          description: Invalid credentials
+          schema:
+            $ref: '#/definitions/v1.response'
+        "406":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: User Login
+      tags:
+      - Auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user and returns an access token.
+      operationId: register
+      parameters:
+      - description: Register request body
+        in: body
+        name: request
         required: true
-        type: string
-      - description: Tour Price
-        in: formData
-        name: price
+        schema:
+          $ref: '#/definitions/dto.RegisterDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully registered
+          schema:
+            $ref: '#/definitions/v1.loginResponse'
+        "400":
+          description: Invalid request data
+          schema:
+            $ref: '#/definitions/v1.response'
+        "406":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: User Registration
+      tags:
+      - Auth
+  /v1/users:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a paginated list of users.
+      operationId: get_users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with user list
+          schema:
+            $ref: '#/definitions/v1.getUsersResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Users
+      tags:
+      - Users
+  /v1/users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Fetch details of a user by their ID.
+      operationId: get_user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
         required: true
         type: integer
-      - description: Tour Images (multiple allowed)
-        in: formData
-        name: images
-        type: file
-      - description: Tour Videos (multiple allowed)
-        in: formData
-        name: videos
-        type: file
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/entity.TourDocs'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Create a new tour
-      tags:
-      - tours
-  /tours/{id}:
-    get:
-      description: Fetch details of a specific tour by its UUID.
-      parameters:
-      - description: Tour ID
-        in: path
-        name: id
-        required: true
-        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Successful response with user details
           schema:
-            $ref: '#/definitions/entity.TourDocs'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/entity.User'
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get a tour by ID
+            $ref: '#/definitions/v1.response'
+      summary: Get User
       tags:
-      - tours
-  /tours/{id}/:
-    get:
-      description: Fetches images and videos for a specific tour by ID.Example http://localhost:8080/uploads/videos/4f72a1cb-6ed4-4f01-b38b-b605d3062236.mp4.
+      - Users
+    patch:
+      consumes:
+      - application/json
+      description: Update details of an existing user by providing user ID and update
+        data.
+      operationId: update_user
       parameters:
-      - description: Tour ID
+      - description: User ID
         in: path
         name: id
         required: true
-        type: string
+        type: integer
+      - description: User update data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserDTO'
       produces:
       - application/json
       responses:
         "200":
-          description: Returns a list of image and video URLs.
+          description: User successfully updated
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/v1.response'
         "400":
-          description: Invalid Tour ID
+          description: Invalid request body
           schema:
-            additionalProperties:
-              type: string
-            type: object
-        "404":
-          description: Tour not found
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
           schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get static files for a tour
+            $ref: '#/definitions/v1.response'
+      summary: Update User
       tags:
-      - tours
+      - Users
 swagger: "2.0"
