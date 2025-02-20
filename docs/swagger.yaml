@@ -114,6 +114,43 @@ definitions:
     - discipline_id
     - name
     type: object
+  dto.StoreDisciplineModuleTopicDTO:
+    properties:
+      discipline_module_id:
+        example: 1
+        type: integer
+      hours_individual:
+        example: 0
+        type: integer
+      hours_internship:
+        example: 0
+        type: integer
+      hours_practice:
+        example: 50
+        type: integer
+      hours_self_study:
+        example: 0
+        type: integer
+      hours_theory:
+        example: 50
+        type: integer
+      hours_with_teacher:
+        example: 0
+        type: integer
+      name:
+        example: DisciplineModuleTopic Name
+        type: string
+      type:
+        enum:
+        - practice
+        - theory
+        example: practice
+        type: string
+    required:
+    - discipline_module_id
+    - name
+    - type
+    type: object
   dto.StoreQualificationDTO:
     properties:
       code:
@@ -203,6 +240,39 @@ definitions:
         type: integer
       name:
         example: DisciplineModule Name
+        type: string
+    type: object
+  dto.UpdateDisciplineModuleTopicDTO:
+    properties:
+      discipline_module_id:
+        example: 1
+        type: integer
+      hours_individual:
+        example: 0
+        type: integer
+      hours_internship:
+        example: 0
+        type: integer
+      hours_practice:
+        example: 50
+        type: integer
+      hours_self_study:
+        example: 0
+        type: integer
+      hours_theory:
+        example: 50
+        type: integer
+      hours_with_teacher:
+        example: 0
+        type: integer
+      name:
+        example: DisciplineModuleTopic Name
+        type: string
+      type:
+        enum:
+        - practice
+        - theory
+        example: practice
         type: string
     type: object
   dto.UpdateProfileDTO:
@@ -490,6 +560,15 @@ definitions:
         example: johndoe
         type: string
     type: object
+  v1.getDisciplineModuleTopicsResponse:
+    properties:
+      disciplineModuleTopics:
+        items:
+          $ref: '#/definitions/entity.DisciplineModuleTopic'
+        type: array
+      total:
+        type: integer
+    type: object
   v1.getDisciplineModulesResponse:
     properties:
       disciplineModules:
@@ -667,6 +746,107 @@ paths:
       summary: User Registration
       tags:
       - Auth
+  /v1/disciplineModuleTopics:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of disciplineModuleTopics.
+      operationId: get_disciplineModuleTopics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineModuleTopic list
+          schema:
+            $ref: '#/definitions/v1.getDisciplineModuleTopicsResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get DisciplineModuleTopics
+      tags:
+      - DisciplineModuleTopics
+    post:
+      consumes:
+      - application/json
+      description: Store a new disciplineModuleTopic.
+      operationId: store_disciplineModuleTopic
+      parameters:
+      - description: DisciplineModuleTopic request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreDisciplineModuleTopicDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store DisciplineModuleTopic
+      tags:
+      - DisciplineModuleTopics
+  /v1/disciplineModuleTopics/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a disciplineModuleTopic.
+      operationId: delete_disciplineModuleTopic
+      parameters:
+      - description: DisciplineModuleTopic ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete DisciplineModuleTopic
+      tags:
+      - DisciplineModuleTopics
+    get:
+      consumes:
+      - application/json
+      description: Fetch a disciplineModuleTopic by ID.
+      operationId: get_disciplineModuleTopic
+      parameters:
+      - description: DisciplineModuleTopic ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineModuleTopic
+          schema:
+            $ref: '#/definitions/entity.DisciplineModuleTopic'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get DisciplineModuleTopic
+      tags:
+      - DisciplineModuleTopics
   /v1/disciplineModules:
     get:
       consumes:

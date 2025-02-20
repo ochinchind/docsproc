@@ -60,6 +60,11 @@ func Run(cfg *config.Config) {
 		repo.NewDisciplineRepo(pg),
 	)
 
+	disciplineModuleTopicUseCase := usecase.NewDisciplineModuleTopicUseCase(
+		repo.NewDisciplineModuleTopicRepo(pg),
+		repo.NewDisciplineModuleRepo(pg),
+	)
+
 	authUseCase := usecase.NewAuthUseCase(
 		repo.New(pg),
 	)
@@ -72,6 +77,7 @@ func Run(cfg *config.Config) {
 		qualificationUseCase,
 		disciplineUseCase,
 		disciplineModuleUseCase,
+		disciplineModuleTopicUseCase,
 	)
 
 	err = pg.Connect(cfg)
