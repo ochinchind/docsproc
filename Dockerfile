@@ -18,4 +18,6 @@ COPY --from=builder /app/config /config
 COPY --from=builder /bin/app /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /app/.env /.env
+COPY --from=builder /app/model.conf /model.conf
+COPY --from=builder /app/policy.csv /policy.csv
 CMD ["/app"]
