@@ -27,7 +27,7 @@ func (uc *AuthUseCase) Login(dto *dto.LoginDTO) (string, error) {
 		return "", fmt.Errorf("AuthUseCase - uc.UserRepo.GetByUsername: %w", err)
 	}
 
-	if user == (entity.User{}) {
+	if user == nil {
 		return "", fmt.Errorf("user not found")
 	}
 
@@ -35,7 +35,7 @@ func (uc *AuthUseCase) Login(dto *dto.LoginDTO) (string, error) {
 		return "", fmt.Errorf("wrong password")
 	}
 
-	tokenString, err := GenerateJWT(user.Email, user.Name, user.Role)
+	tokenString, err := GenerateJWT(user.ID, user.Email, user.Name, user.Role)
 
 	if err != nil {
 		return "", fmt.Errorf("AuthUseCase - GenerateJWT - uc.JWT.GenerateJWT: %w", err)
@@ -52,11 +52,11 @@ func (uc *AuthUseCase) Register(dto *dto.RegisterDTO) (string, error) {
 		return "", fmt.Errorf("AuthUseCase - uc.UserRepo.GetByUsername: %w", err)
 	}
 
-	if user.Email == dto.Email {
+	if user != nil && user.Email == dto.Email {
 		return "", fmt.Errorf("email already exists")
 	}
 
-	if user.Username == dto.Username {
+	if user != nil && user.Username == dto.Username {
 		return "", fmt.Errorf("username already exists")
 	}
 
@@ -66,7 +66,7 @@ func (uc *AuthUseCase) Register(dto *dto.RegisterDTO) (string, error) {
 		return "", fmt.Errorf("AuthUseCase - HashPassword: %w", err)
 	}
 
-	user = entity.User{
+	userEntity := entity.User{
 		Username: dto.Username,
 		Email:    dto.Email,
 		Password: hash,
@@ -76,13 +76,13 @@ func (uc *AuthUseCase) Register(dto *dto.RegisterDTO) (string, error) {
 		Role:     dto.Role,
 	}
 
-	err = uc.userRepo.Create(&user)
+	err = uc.userRepo.Create(&userEntity)
 
 	if err != nil {
 		return "", fmt.Errorf("AuthUseCase - uc.UserRepo.Create: %w", err)
 	}
 
-	tokenString, err := GenerateJWT(user.Email, user.Name, user.Role)
+	tokenString, err := GenerateJWT(userEntity.ID, userEntity.Email, userEntity.Name, userEntity.Role)
 
 	if err != nil {
 		return "", fmt.Errorf("AuthUseCase - GenerateJWT - uc.JWT.GenerateJWT: %w", err)

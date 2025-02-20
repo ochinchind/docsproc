@@ -1,9 +1,11 @@
 package repo
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/ochinchind/docsproc/internal/entity"
 	"github.com/ochinchind/docsproc/pkg/postgres"
+	"gorm.io/gorm"
 	"strconv"
 )
 
@@ -20,35 +22,59 @@ func New(pg *postgres.Postgres) *UserRepo {
 }
 
 // GetByUsernameOrEmail -.
-func (r *UserRepo) GetByUsernameOrEmail(username, email string) (entity.User, error) {
+func (r *UserRepo) GetByUsernameOrEmail(username, email string) (*entity.User, error) {
 	var user entity.User
-	r.Postgres.Conn.Where("username = ? OR email = ?", username, email).First(&user)
+	err := r.Postgres.Conn.Where("username = ? OR email = ?", username, email).First(&user).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
 
-	return user, nil
+	return &user, nil
 }
 
 // GetByUsername -.
-func (r *UserRepo) GetByUsername(username string) (entity.User, error) {
+func (r *UserRepo) GetByUsername(username string) (*entity.User, error) {
 	var user entity.User
-	r.Postgres.Conn.Where("username = ?", username).First(&user)
+	err := r.Postgres.Conn.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
 
-	return user, nil
+	return &user, nil
 }
 
 // GetByEmail -.
-func (r *UserRepo) GetByEmail(email string) (entity.User, error) {
+func (r *UserRepo) GetByEmail(email string) (*entity.User, error) {
 	var user entity.User
-	r.Postgres.Conn.Where("email = ?", email).First(&user)
+	err := r.Postgres.Conn.Where("email = ?", email).First(&user).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
 
-	return user, nil
+	return &user, nil
 }
 
 // GetByID -.
-func (r *UserRepo) GetByID(id int) (entity.User, error) {
+func (r *UserRepo) GetByID(id int) (*entity.User, error) {
 	var user entity.User
-	r.Postgres.Conn.Where("id = ?", id).First(&user)
+	err := r.Postgres.Conn.Where("id = ?", id).First(&user).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
 
-	return user, nil
+	return &user, nil
 }
 
 // Create -.
@@ -61,6 +87,13 @@ func (r *UserRepo) Create(user *entity.User) error {
 // Update -.
 func (r *UserRepo) Update(user *entity.User) error {
 	r.Postgres.Conn.Save(&user)
+
+	return nil
+}
+
+// Delete -.
+func (r *UserRepo) Delete(user *entity.User) error {
+	r.Postgres.Conn.Delete(&user)
 
 	return nil
 }

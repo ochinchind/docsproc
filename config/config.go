@@ -20,6 +20,7 @@ type (
 		PG                `yaml:"postgres"`
 		GoogleLoginConfig oauth2.Config
 		//RMQ             `yaml:"rabbitmq"`
+		Redis `yaml:"redis"`
 	}
 
 	// App -.
@@ -50,6 +51,12 @@ type (
 	//	ClientExchange string `env-required:"true" yaml:"rpc_client_exchange" env:"RMQ_RPC_CLIENT"`
 	//	URL            string `env-required:"true"                            env:"RMQ_URL"`
 	//}
+
+	// Redis -.
+	Redis struct {
+		RedisURL      string `env-required:"true" yaml:"url" env:"REDIS_URL"`
+		RedisPassword string `yaml:"password" env:"REDIS_PASSWORD"`
+	}
 )
 
 var Cfg Config

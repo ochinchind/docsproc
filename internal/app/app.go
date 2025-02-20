@@ -3,6 +3,7 @@ package app
 
 import (
 	"fmt"
+	"github.com/go-redis/redis"
 	"github.com/ochinchind/docsproc/internal/usecase"
 	"github.com/ochinchind/docsproc/pkg/casbin"
 	"os"
@@ -40,6 +41,10 @@ func Run(cfg *config.Config) {
 		repo.New(pg),
 	)
 
+	specialtyUseCase := usecase.NewSpecialtyUseCase(
+		repo.NewSpecialtyRepo(pg),
+	)
+
 	authUseCase := usecase.NewAuthUseCase(
 		repo.New(pg),
 	)
@@ -48,6 +53,7 @@ func Run(cfg *config.Config) {
 		googleOAuthUseCase,
 		userUseCase,
 		authUseCase,
+		specialtyUseCase,
 	)
 
 	err = pg.Connect(cfg)
@@ -66,11 +72,23 @@ func Run(cfg *config.Config) {
 		l.Fatal(err)
 	}
 
+	// init redis
+	rd := redis.NewClient(&redis.Options{
+		Addr:     cfg.Redis.RedisURL,      // Redis address
+		Password: cfg.Redis.RedisPassword, // No password by default
+		DB:       0,                       // Default DB
+	})
+
+	_, err = rd.Ping().Result()
+	if err != nil {
+		l.Fatal("Could not connect to Redis: %v", err)
+	}
+
 	// HTTP Server
 	handler := gin.New()
 	handler.Static("/uploads", "./uploads")
 	handler.MaxMultipartMemory = 200 << 20
-	v1.NewRouter(handler, l, services, casbinEnforcer)
+	v1.NewRouter(handler, l, services, casbinEnforcer, rd)
 	httpServer := httpserver.New(handler, httpserver.Port(cfg.HTTP.Port))
 
 	// Waiting signal

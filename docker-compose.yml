@@ -19,6 +19,13 @@ services:
       - 5672:5672
       - 15672:15672
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    command: ["redis-server", "--appendonly", "yes"]
+
   app:
     build: .
     container_name: app
@@ -26,11 +33,13 @@ services:
     environment:
       PG_URL: 'postgres://user:pass@postgres:5432/postgres'
       RMQ_URL: 'amqp://guest:guest@rabbitmq:5672/'
+      REDIS_URL: 'redis:6379'
     ports:
       - 8080:8080
     depends_on:
       - postgres
       - rabbitmq
+      - redis
 
   integration:
     build:

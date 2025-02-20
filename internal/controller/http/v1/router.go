@@ -3,6 +3,7 @@ package v1
 
 import (
 	"github.com/casbin/casbin/v2"
+	"github.com/go-redis/redis"
 	"github.com/ochinchind/docsproc/internal/usecase"
 	"net/http"
 
@@ -23,7 +24,7 @@ import (
 // @version     1.0
 // @host        localhost:8080
 // @BasePath    /v1
-func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, casbinEnforcer *casbin.Enforcer) {
+func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, casbinEnforcer *casbin.Enforcer, rd *redis.Client) {
 	// Options
 	handler.Use(gin.Logger())
 	handler.Use(gin.Recovery())
@@ -46,6 +47,7 @@ func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, cas
 
 	h := handler.Group("/v1")
 	{
-		newUserRoutes(h, s.User, l, casbinEnforcer)
+		newUserRoutes(h, s.User, l, casbinEnforcer, rd)
+		newSpecialtyRoutes(h, s.Specialty, l, casbinEnforcer, rd)
 	}
 }

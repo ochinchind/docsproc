@@ -48,7 +48,11 @@ func (uc *UserUseCase) GetUser(context *gin.Context) (*entity.User, error) {
 		return nil, err
 	}
 
-	return &user, nil
+	if user == nil {
+		return nil, fmt.Errorf("user not found")
+	}
+
+	return user, nil
 }
 
 func (uc *UserUseCase) Update(id int, dto *dto.UpdateUserDTO) error {
@@ -66,7 +70,7 @@ func (uc *UserUseCase) Update(id int, dto *dto.UpdateUserDTO) error {
 		if err != nil {
 			return fmt.Errorf("failed to get user by username: %w", err)
 		}
-		if userCheck != (entity.User{}) && user.ID != userCheck.ID {
+		if userCheck != nil && user.ID != userCheck.ID {
 			return fmt.Errorf("username already exists")
 		}
 		user.Username = dto.Username
@@ -78,7 +82,7 @@ func (uc *UserUseCase) Update(id int, dto *dto.UpdateUserDTO) error {
 		if err != nil {
 			return fmt.Errorf("failed to get user by email: %w", err)
 		}
-		if userCheck != (entity.User{}) && user.ID != userCheck.ID {
+		if userCheck != nil && user.ID != userCheck.ID {
 			return fmt.Errorf("email already exists")
 		}
 		user.Email = dto.Email
@@ -101,8 +105,76 @@ func (uc *UserUseCase) Update(id int, dto *dto.UpdateUserDTO) error {
 		user.Password = hash
 	}
 
-	if err := uc.userRepo.Update(&user); err != nil {
+	if err := uc.userRepo.Update(user); err != nil {
 		return fmt.Errorf("failed to update user: %w", err)
+	}
+
+	return nil
+}
+
+// UpdateProfile -.
+func (uc *UserUseCase) UpdateProfile(id int, dto *dto.UpdateProfileDTO) error {
+	user, err := uc.userRepo.GetByID(id)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return fmt.Errorf("user not found")
+		}
+		return err
+	}
+
+	if dto.Username != "" {
+		// check if username exists where not id is the same
+		userCheck, err := uc.userRepo.GetByUsername(dto.Username)
+		if err != nil {
+			return fmt.Errorf("failed to get user by username: %w", err)
+		}
+		if userCheck != nil && user.ID != userCheck.ID {
+			return fmt.Errorf("username already exists")
+		}
+		user.Username = dto.Username
+	}
+
+	if dto.Password != "" {
+		hash, err := utils.HashPassword(dto.Password)
+		if err != nil {
+			return fmt.Errorf("AuthUseCase - HashPassword: %w", err)
+		}
+		user.Password = hash
+	}
+
+	if dto.Name != "" {
+		user.Name = dto.Name
+	}
+
+	if dto.Surname != "" {
+		user.Surname = dto.Surname
+	}
+
+	if dto.Phone != "" {
+		user.Phone = dto.Phone
+	}
+
+	if err := uc.userRepo.Update(user); err != nil {
+		return fmt.Errorf("failed to update user: %w", err)
+	}
+
+	return nil
+}
+
+// Delete -.
+func (uc *UserUseCase) Delete(id int) error {
+	user, err := uc.userRepo.GetByID(id)
+
+	if err != nil {
+		return err
+	}
+
+	if user == nil {
+		return fmt.Errorf("user not found")
+	}
+
+	if err := uc.userRepo.Delete(user); err != nil {
+		return err
 	}
 
 	return nil
