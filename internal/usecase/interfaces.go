@@ -66,18 +66,36 @@ type (
 	Qualification interface {
 		Get(context *gin.Context) ([]entity.Qualification, int64, error)
 		GetByID(id int) (*entity.Qualification, error)
-		Update(id int, specialty *dto.UpdateQualificationDTO) error
-		Store(specialty *dto.StoreQualificationDTO) error
+		Update(id int, qualification *dto.UpdateQualificationDTO) error
+		Store(qualification *dto.StoreQualificationDTO) error
 		Delete(id int) error
 	}
 
 	// QualificationRepo -.
 	QualificationRepo interface {
 		Get(context *gin.Context) ([]entity.Qualification, int64, error)
-		Update(specialty *entity.Qualification) error
-		Delete(specialty *entity.Qualification) error
-		Store(specialty *entity.Qualification) error
+		Update(qualification *entity.Qualification) error
+		Delete(qualification *entity.Qualification) error
+		Store(qualification *entity.Qualification) error
 		GetByID(id int) (*entity.Qualification, error)
+	}
+
+	// Discipline -.
+	Discipline interface {
+		Get(context *gin.Context) ([]entity.Discipline, int64, error)
+		GetByID(id int) (*entity.Discipline, error)
+		Update(id int, discipline *dto.UpdateDisciplineDTO) error
+		Store(discipline *dto.StoreDisciplineDTO) error
+		Delete(id int) error
+	}
+
+	// DisciplineRepo -.
+	DisciplineRepo interface {
+		Get(context *gin.Context) ([]entity.Discipline, int64, error)
+		Update(discipline *entity.Discipline) error
+		Delete(discipline *entity.Discipline) error
+		Store(discipline *entity.Discipline) error
+		GetByID(id int) (*entity.Discipline, error)
 	}
 
 	// Auth -.

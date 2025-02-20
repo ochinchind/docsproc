@@ -3,3 +3,5 @@ p, admin, specialty, read
 p, admin, specialty, write
 p, admin, qualification, read
 p, admin, qualification, write
+p, admin, discipline, read
+p, admin, discipline, write

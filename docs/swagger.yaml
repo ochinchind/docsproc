@@ -45,6 +45,63 @@ definitions:
     - password
     - username
     type: object
+  dto.StoreDisciplineDTO:
+    properties:
+      assessment_type:
+        example: exam
+        type: string
+      code:
+        example: "00342342413"
+        type: string
+      competencies:
+        example: 1,2,3
+        type: string
+      desc:
+        example: John Doe
+        type: string
+      hours_individual:
+        example: 0
+        type: integer
+      hours_internship:
+        example: 0
+        type: integer
+      hours_practice:
+        example: 50
+        type: integer
+      hours_self_study:
+        example: 0
+        type: integer
+      hours_theory:
+        example: 50
+        type: integer
+      hours_total:
+        example: 100
+        type: integer
+      hours_with_teacher:
+        example: 0
+        type: integer
+      lang:
+        example: en
+        type: string
+      name:
+        example: Discipline Name
+        type: string
+      necessities:
+        example: 1,2,3
+        type: string
+      post_requisites:
+        example: 1,2,3
+        type: string
+      pre_requisites:
+        example: 1,2,3
+        type: string
+      qualification_id:
+        example: 1
+        type: integer
+    required:
+    - name
+    - qualification_id
+    type: object
   dto.StoreQualificationDTO:
     properties:
       code:
@@ -72,6 +129,60 @@ definitions:
     required:
     - code
     - name
+    type: object
+  dto.UpdateDisciplineDTO:
+    properties:
+      assessment_type:
+        example: exam
+        type: string
+      code:
+        example: "00342342413"
+        type: string
+      competencies:
+        example: 1,2,3
+        type: string
+      desc:
+        example: John Doe
+        type: string
+      hours_individual:
+        example: 0
+        type: integer
+      hours_internship:
+        example: 0
+        type: integer
+      hours_practice:
+        example: 50
+        type: integer
+      hours_self_study:
+        example: 0
+        type: integer
+      hours_theory:
+        example: 50
+        type: integer
+      hours_total:
+        example: 100
+        type: integer
+      hours_with_teacher:
+        example: 0
+        type: integer
+      lang:
+        example: en
+        type: string
+      name:
+        example: Discipline Name
+        type: string
+      necessities:
+        example: 1,2,3
+        type: string
+      post_requisites:
+        example: 1,2,3
+        type: string
+      pre_requisites:
+        example: 1,2,3
+        type: string
+      qualification_id:
+        example: 1
+        type: integer
     type: object
   dto.UpdateProfileDTO:
     properties:
@@ -358,6 +469,15 @@ definitions:
         example: johndoe
         type: string
     type: object
+  v1.getDisciplinesResponse:
+    properties:
+      disciplines:
+        items:
+          $ref: '#/definitions/entity.Discipline'
+        type: array
+      total:
+        type: integer
+    type: object
   v1.getQualificationsResponse:
     properties:
       qualifications:
@@ -517,6 +637,107 @@ paths:
       summary: User Registration
       tags:
       - Auth
+  /v1/disciplines:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of disciplines.
+      operationId: get_disciplines
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with discipline list
+          schema:
+            $ref: '#/definitions/v1.getDisciplinesResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Disciplines
+      tags:
+      - Disciplines
+    post:
+      consumes:
+      - application/json
+      description: Store a new discipline.
+      operationId: store_discipline
+      parameters:
+      - description: Discipline request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreDisciplineDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store Discipline
+      tags:
+      - Disciplines
+  /v1/disciplines/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a discipline.
+      operationId: delete_discipline
+      parameters:
+      - description: Discipline ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete Discipline
+      tags:
+      - Disciplines
+    get:
+      consumes:
+      - application/json
+      description: Fetch a discipline by ID.
+      operationId: get_discipline
+      parameters:
+      - description: Discipline ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with discipline
+          schema:
+            $ref: '#/definitions/entity.Discipline'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Discipline
+      tags:
+      - Disciplines
   /v1/qualifications:
     get:
       consumes:

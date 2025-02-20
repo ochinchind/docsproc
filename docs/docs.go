@@ -178,6 +178,157 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/disciplines": {
+            "get": {
+                "description": "Fetch a list of disciplines.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Get Disciplines",
+                "operationId": "get_disciplines",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with discipline list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getDisciplinesResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Store a new discipline.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Store Discipline",
+                "operationId": "store_discipline",
+                "parameters": [
+                    {
+                        "description": "Discipline request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StoreDisciplineDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully stored",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/disciplines/{id}": {
+            "get": {
+                "description": "Fetch a discipline by ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Get Discipline",
+                "operationId": "get_discipline",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Discipline ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with discipline",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Discipline"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a discipline.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Disciplines"
+                ],
+                "summary": "Delete Discipline",
+                "operationId": "delete_discipline",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Discipline ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/qualifications": {
             "get": {
                 "description": "Fetch a list of qualifications.",
@@ -748,6 +899,83 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.StoreDisciplineDTO": {
+            "type": "object",
+            "required": [
+                "name",
+                "qualification_id"
+            ],
+            "properties": {
+                "assessment_type": {
+                    "type": "string",
+                    "example": "exam"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "00342342413"
+                },
+                "competencies": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "desc": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "hours_individual": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_internship": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_practice": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_self_study": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_theory": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_total": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "hours_with_teacher": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "lang": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Discipline Name"
+                },
+                "necessities": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "post_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "pre_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "qualification_id": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "dto.StoreQualificationDTO": {
             "type": "object",
             "required": [
@@ -784,6 +1012,79 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "Specialty Name"
+                }
+            }
+        },
+        "dto.UpdateDisciplineDTO": {
+            "type": "object",
+            "properties": {
+                "assessment_type": {
+                    "type": "string",
+                    "example": "exam"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "00342342413"
+                },
+                "competencies": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "desc": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "hours_individual": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_internship": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_practice": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_self_study": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "hours_theory": {
+                    "type": "integer",
+                    "example": 50
+                },
+                "hours_total": {
+                    "type": "integer",
+                    "example": 100
+                },
+                "hours_with_teacher": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "lang": {
+                    "type": "string",
+                    "example": "en"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Discipline Name"
+                },
+                "necessities": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "post_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "pre_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "qualification_id": {
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -1176,6 +1477,20 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "johndoe"
+                }
+            }
+        },
+        "v1.getDisciplinesResponse": {
+            "type": "object",
+            "properties": {
+                "disciplines": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Discipline"
+                    }
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
