@@ -7,5 +7,7 @@ p, admin, discipline, read
 p, admin, discipline, write
 p, admin, disciplineModule, read
 p, admin, disciplineModule, write
-p, admin, disciplineModuleTopic, read
-p, admin, disciplineModuleTopic, write
+p, admin, disciplineModuleChapter, read
+p, admin, disciplineModuleChapter, write
+p, admin, disciplineModuleChapterTopic, read
+p, admin, disciplineModuleChapterTopic, write

@@ -85,7 +85,7 @@ type (
 		Get(context *gin.Context) ([]entity.Discipline, int64, error)
 		GetByID(id int) (*entity.Discipline, error)
 		Update(id int, discipline *dto.UpdateDisciplineDTO) error
-		Store(discipline *dto.StoreDisciplineDTO) error
+		Store(discipline *dto.StoreDisciplineDTO, userId uint) error
 		Delete(id int) error
 	}
 
@@ -116,22 +116,40 @@ type (
 		GetByID(id int) (*entity.DisciplineModule, error)
 	}
 
-	// DisciplineModuleTopic -.
-	DisciplineModuleTopic interface {
-		Get(context *gin.Context) ([]entity.DisciplineModuleTopic, int64, error)
-		GetByID(id int) (*entity.DisciplineModuleTopic, error)
-		Update(id int, disciplineModuleTopic *dto.UpdateDisciplineModuleTopicDTO) error
-		Store(disciplineModuleTopic *dto.StoreDisciplineModuleTopicDTO) error
+	// DisciplineModuleChapter -.
+	DisciplineModuleChapter interface {
+		Get(context *gin.Context) ([]entity.DisciplineModuleChapter, int64, error)
+		GetByID(id int) (*entity.DisciplineModuleChapter, error)
+		Update(id int, disciplineModuleChapter *dto.UpdateDisciplineModuleChapterDTO) error
+		Store(disciplineModuleChapter *dto.StoreDisciplineModuleChapterDTO) error
 		Delete(id int) error
 	}
 
-	// DisciplineModuleTopicRepo -.
-	DisciplineModuleTopicRepo interface {
-		Get(context *gin.Context) ([]entity.DisciplineModuleTopic, int64, error)
-		Update(disciplineModuleTopic *entity.DisciplineModuleTopic) error
-		Delete(disciplineModuleTopic *entity.DisciplineModuleTopic) error
-		Store(disciplineModuleTopic *entity.DisciplineModuleTopic) error
-		GetByID(id int) (*entity.DisciplineModuleTopic, error)
+	// DisciplineModuleChapterRepo -.
+	DisciplineModuleChapterRepo interface {
+		Get(context *gin.Context) ([]entity.DisciplineModuleChapter, int64, error)
+		Update(disciplineModuleChapter *entity.DisciplineModuleChapter) error
+		Delete(disciplineModuleChapter *entity.DisciplineModuleChapter) error
+		Store(disciplineModuleChapter *entity.DisciplineModuleChapter) error
+		GetByID(id int) (*entity.DisciplineModuleChapter, error)
+	}
+
+	// DisciplineModuleChapterTopic -.
+	DisciplineModuleChapterTopic interface {
+		Get(context *gin.Context) ([]entity.DisciplineModuleChapterTopic, int64, error)
+		GetByID(id int) (*entity.DisciplineModuleChapterTopic, error)
+		Update(id int, disciplineModuleChapterTopic *dto.UpdateDisciplineModuleChapterTopicDTO) error
+		Store(disciplineModuleChapterTopic *dto.StoreDisciplineModuleChapterTopicDTO) error
+		Delete(id int) error
+	}
+
+	// DisciplineModuleChapterTopicRepo -.
+	DisciplineModuleChapterTopicRepo interface {
+		Get(context *gin.Context) ([]entity.DisciplineModuleChapterTopic, int64, error)
+		Update(disciplineModuleChapterTopic *entity.DisciplineModuleChapterTopic) error
+		Delete(disciplineModuleChapterTopic *entity.DisciplineModuleChapterTopic) error
+		Store(disciplineModuleChapterTopic *entity.DisciplineModuleChapterTopic) error
+		GetByID(id int) (*entity.DisciplineModuleChapterTopic, error)
 	}
 
 	// Auth -.

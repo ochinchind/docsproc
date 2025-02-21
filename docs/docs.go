@@ -178,9 +178,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/disciplineModuleTopics": {
+        "/v1/disciplineModuleChapterTopics": {
             "get": {
-                "description": "Fetch a list of disciplineModuleTopics.",
+                "description": "Fetch a list of disciplineModuleChapterTopics.",
                 "consumes": [
                     "application/json"
                 ],
@@ -188,15 +188,15 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "DisciplineModuleTopics"
+                    "DisciplineModuleChapterTopics"
                 ],
-                "summary": "Get DisciplineModuleTopics",
-                "operationId": "get_disciplineModuleTopics",
+                "summary": "Get DisciplineModuleChapterTopics",
+                "operationId": "get_disciplineModuleChapterTopics",
                 "responses": {
                     "200": {
-                        "description": "Successful response with disciplineModuleTopic list",
+                        "description": "Successful response with disciplineModuleChapterTopic list",
                         "schema": {
-                            "$ref": "#/definitions/v1.getDisciplineModuleTopicsResponse"
+                            "$ref": "#/definitions/v1.getDisciplineModuleChapterTopicsResponse"
                         }
                     },
                     "500": {
@@ -208,7 +208,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Store a new disciplineModuleTopic.",
+                "description": "Store a new disciplineModuleChapterTopic.",
                 "consumes": [
                     "application/json"
                 ],
@@ -216,18 +216,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "DisciplineModuleTopics"
+                    "DisciplineModuleChapterTopics"
                 ],
-                "summary": "Store DisciplineModuleTopic",
-                "operationId": "store_disciplineModuleTopic",
+                "summary": "Store DisciplineModuleChapterTopic",
+                "operationId": "store_disciplineModuleChapterTopic",
                 "parameters": [
                     {
-                        "description": "DisciplineModuleTopic request body",
+                        "description": "DisciplineModuleChapterTopic request body",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.StoreDisciplineModuleTopicDTO"
+                            "$ref": "#/definitions/dto.StoreDisciplineModuleChapterTopicDTO"
                         }
                     }
                 ],
@@ -253,9 +253,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/disciplineModuleTopics/{id}": {
+        "/v1/disciplineModuleChapterTopics/{id}": {
             "get": {
-                "description": "Fetch a disciplineModuleTopic by ID.",
+                "description": "Fetch a disciplineModuleChapterTopic by ID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -263,14 +263,14 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "DisciplineModuleTopics"
+                    "DisciplineModuleChapterTopics"
                 ],
-                "summary": "Get DisciplineModuleTopic",
-                "operationId": "get_disciplineModuleTopic",
+                "summary": "Get DisciplineModuleChapterTopic",
+                "operationId": "get_disciplineModuleChapterTopic",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "DisciplineModuleTopic ID",
+                        "description": "DisciplineModuleChapterTopic ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -278,9 +278,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response with disciplineModuleTopic",
+                        "description": "Successful response with disciplineModuleChapterTopic",
                         "schema": {
-                            "$ref": "#/definitions/entity.DisciplineModuleTopic"
+                            "$ref": "#/definitions/entity.DisciplineModuleChapterTopic"
                         }
                     },
                     "500": {
@@ -292,7 +292,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Delete a disciplineModuleTopic.",
+                "description": "Delete a disciplineModuleChapterTopic.",
                 "consumes": [
                     "application/json"
                 ],
@@ -300,14 +300,165 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "DisciplineModuleTopics"
+                    "DisciplineModuleChapterTopics"
                 ],
-                "summary": "Delete DisciplineModuleTopic",
-                "operationId": "delete_disciplineModuleTopic",
+                "summary": "Delete DisciplineModuleChapterTopic",
+                "operationId": "delete_disciplineModuleChapterTopic",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "DisciplineModuleTopic ID",
+                        "description": "DisciplineModuleChapterTopic ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/disciplineModuleChapters": {
+            "get": {
+                "description": "Fetch a list of disciplineModuleChapters.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineModuleChapters"
+                ],
+                "summary": "Get DisciplineModuleChapters",
+                "operationId": "get_disciplineModuleChapters",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with disciplineModuleChapter list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getDisciplineModuleChaptersResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Store a new disciplineModuleChapter.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineModuleChapters"
+                ],
+                "summary": "Store DisciplineModuleChapter",
+                "operationId": "store_disciplineModuleChapter",
+                "parameters": [
+                    {
+                        "description": "DisciplineModuleChapter request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StoreDisciplineModuleChapterDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully stored",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/disciplineModuleChapters/{id}": {
+            "get": {
+                "description": "Fetch a disciplineModuleChapter by ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineModuleChapters"
+                ],
+                "summary": "Get DisciplineModuleChapter",
+                "operationId": "get_disciplineModuleChapter",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DisciplineModuleChapter ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with disciplineModuleChapter",
+                        "schema": {
+                            "$ref": "#/definitions/entity.DisciplineModuleChapter"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a disciplineModuleChapter.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineModuleChapters"
+                ],
+                "summary": "Delete DisciplineModuleChapter",
+                "operationId": "delete_disciplineModuleChapter",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DisciplineModuleChapter ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1278,32 +1429,32 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.StoreDisciplineModuleDTO": {
+        "dto.StoreDisciplineModuleChapterDTO": {
             "type": "object",
             "required": [
-                "discipline_id",
+                "discipline_module_id",
                 "name"
             ],
             "properties": {
-                "discipline_id": {
+                "discipline_module_id": {
                     "type": "integer",
                     "example": 1
                 },
                 "name": {
                     "type": "string",
-                    "example": "DisciplineModule Name"
+                    "example": "DisciplineModuleChapter Name"
                 }
             }
         },
-        "dto.StoreDisciplineModuleTopicDTO": {
+        "dto.StoreDisciplineModuleChapterTopicDTO": {
             "type": "object",
             "required": [
-                "discipline_module_id",
+                "discipline_module_chapter_id",
                 "name",
                 "type"
             ],
             "properties": {
-                "discipline_module_id": {
+                "discipline_module_chapter_id": {
                     "type": "integer",
                     "example": 1
                 },
@@ -1333,15 +1484,33 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string",
-                    "example": "DisciplineModuleTopic Name"
+                    "example": "DisciplineModuleChapterTopic Name"
                 },
                 "type": {
                     "type": "string",
                     "enum": [
                         "practice",
-                        "theory"
+                        "theory",
+                        "combined"
                     ],
                     "example": "practice"
+                }
+            }
+        },
+        "dto.StoreDisciplineModuleDTO": {
+            "type": "object",
+            "required": [
+                "discipline_id",
+                "name"
+            ],
+            "properties": {
+                "discipline_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "DisciplineModule Name"
                 }
             }
         },
@@ -1457,23 +1626,23 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.UpdateDisciplineModuleDTO": {
+        "dto.UpdateDisciplineModuleChapterDTO": {
             "type": "object",
             "properties": {
-                "discipline_id": {
+                "discipline_module_id": {
                     "type": "integer",
                     "example": 1
                 },
                 "name": {
                     "type": "string",
-                    "example": "DisciplineModule Name"
+                    "example": "DisciplineModuleChapter Name"
                 }
             }
         },
-        "dto.UpdateDisciplineModuleTopicDTO": {
+        "dto.UpdateDisciplineModuleChapterTopicDTO": {
             "type": "object",
             "properties": {
-                "discipline_module_id": {
+                "discipline_module_chapter_id": {
                     "type": "integer",
                     "example": 1
                 },
@@ -1503,15 +1672,29 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string",
-                    "example": "DisciplineModuleTopic Name"
+                    "example": "DisciplineModuleChapterTopic Name"
                 },
                 "type": {
                     "type": "string",
                     "enum": [
                         "practice",
-                        "theory"
+                        "theory",
+                        "combined"
                     ],
                     "example": "practice"
+                }
+            }
+        },
+        "dto.UpdateDisciplineModuleDTO": {
+            "type": "object",
+            "properties": {
+                "discipline_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "DisciplineModule Name"
                 }
             }
         },
@@ -1696,6 +1879,10 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "string",
                     "example": "2021-01-01T00:00:00Z"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -1710,10 +1897,10 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
-                "discipline_module_topics": {
+                "discipline_module_chapters": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/entity.DisciplineModuleTopic"
+                        "$ref": "#/definitions/entity.DisciplineModuleChapter"
                     }
                 },
                 "id": {
@@ -1730,14 +1917,49 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.DisciplineModuleTopic": {
+        "entity.DisciplineModuleChapter": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "JHN"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "discipline_module_chapter_topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.DisciplineModuleChapterTopic"
+                    }
+                },
+                "discipline_module_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
+        "entity.DisciplineModuleChapterTopic": {
             "type": "object",
             "properties": {
                 "created_at": {
                     "type": "string",
                     "example": "2021-01-01T00:00:00Z"
                 },
-                "discipline_module_id": {
+                "discipline_module_chapter_id": {
                     "type": "integer",
                     "example": 1
                 },
@@ -1907,13 +2129,27 @@ const docTemplate = `{
                 }
             }
         },
-        "v1.getDisciplineModuleTopicsResponse": {
+        "v1.getDisciplineModuleChapterTopicsResponse": {
             "type": "object",
             "properties": {
-                "disciplineModuleTopics": {
+                "disciplineModuleChapterTopics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/entity.DisciplineModuleTopic"
+                        "$ref": "#/definitions/entity.DisciplineModuleChapterTopic"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.getDisciplineModuleChaptersResponse": {
+            "type": "object",
+            "properties": {
+                "disciplineModuleChapters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.DisciplineModuleChapter"
                     }
                 },
                 "total": {

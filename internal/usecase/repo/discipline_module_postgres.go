@@ -45,7 +45,11 @@ func (r *DisciplineModuleRepo) Delete(disciplineModule *entity.DisciplineModule)
 // GetByID -.
 func (r *DisciplineModuleRepo) GetByID(id int) (*entity.DisciplineModule, error) {
 	var qualification entity.DisciplineModule
-	err := r.Postgres.Conn.Where("id = ?", id).First(&qualification).Error
+	err := r.Postgres.Conn.
+		Preload("DisciplineModuleChapters").
+		Where("id = ?", id).
+		First(&qualification).Error
+
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, nil
 	}

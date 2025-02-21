@@ -23,9 +23,10 @@ type Discipline struct {
 	PreRequisites     string             `json:"pre_requisites"   example:"1,2,3"                               gorm:"type:text;"`
 	PostRequisites    string             `json:"post_requisites"  example:"1,2,3"                              gorm:"type:text;"`
 	Necessities       string             `json:"necessities"      example:"1,2,3"                               gorm:"type:text;"`
-	QualificationID   uint               `json:"qualification_id" example:"1"                                gorm:"type:bigint;index;not null"`
+	QualificationID   uint               `json:"qualification_id" example:"1"                                   gorm:"type:bigint;index;not null"`
+	UserId            uint               `json:"user_id"          example:"1"                                   gorm:"type:bigint;index;not null"`
 	CreatedAt         time.Time          `json:"created_at"       example:"2021-01-01T00:00:00Z"                 gorm:"autoCreateTime"`
 	UpdatedAt         time.Time          `json:"updated_at"       example:"2021-01-01T00:00:00Z"                 gorm:"autoUpdateTime"`
-	DeletedAt         gorm.DeletedAt     `json:"-"            example:"2021-01-01T00:00:00Z"                 gorm:"index"`
+	DeletedAt         gorm.DeletedAt     `json:"-"            example:"2021-01-01T00:00:00Z"                     gorm:"index"`
 	DisciplineModules []DisciplineModule `json:"discipline_modules"                                                 gorm:"foreignKey:DisciplineID;references:ID"`
 }

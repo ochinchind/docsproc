@@ -79,32 +79,32 @@ func (uc *DisciplineUseCase) Update(id int, discipline *dto.UpdateDisciplineDTO)
 		disciplineEntity.Desc = discipline.Desc
 	}
 
-	if discipline.HoursIndividual != 0 {
-		disciplineEntity.HoursIndividual = discipline.HoursIndividual
+	if discipline.HoursIndividual != nil {
+		disciplineEntity.HoursIndividual = *discipline.HoursIndividual
 	}
 
-	if discipline.HoursInternship != 0 {
-		disciplineEntity.HoursInternship = discipline.HoursInternship
+	if discipline.HoursInternship != nil {
+		disciplineEntity.HoursInternship = *discipline.HoursInternship
 	}
 
-	if discipline.HoursPractice != 0 {
-		disciplineEntity.HoursPractice = discipline.HoursPractice
+	if discipline.HoursPractice != nil {
+		disciplineEntity.HoursPractice = *discipline.HoursPractice
 	}
 
-	if discipline.HoursSelfStudy != 0 {
-		disciplineEntity.HoursSelfStudy = discipline.HoursSelfStudy
+	if discipline.HoursSelfStudy != nil {
+		disciplineEntity.HoursSelfStudy = *discipline.HoursSelfStudy
 	}
 
-	if discipline.HoursTheory != 0 {
-		disciplineEntity.HoursTheory = discipline.HoursTheory
+	if discipline.HoursTheory != nil {
+		disciplineEntity.HoursTheory = *discipline.HoursTheory
 	}
 
-	if discipline.HoursTotal != 0 {
-		disciplineEntity.HoursTotal = discipline.HoursTotal
+	if discipline.HoursTotal != nil {
+		disciplineEntity.HoursTotal = *discipline.HoursTotal
 	}
 
-	if discipline.HoursWithTeacher != 0 {
-		disciplineEntity.HoursWithTeacher = discipline.HoursWithTeacher
+	if discipline.HoursWithTeacher != nil {
+		disciplineEntity.HoursWithTeacher = *discipline.HoursWithTeacher
 	}
 
 	if discipline.Lang != "" {
@@ -147,7 +147,7 @@ func (uc *DisciplineUseCase) Update(id int, discipline *dto.UpdateDisciplineDTO)
 }
 
 // Store -.
-func (uc *DisciplineUseCase) Store(discipline *dto.StoreDisciplineDTO) error {
+func (uc *DisciplineUseCase) Store(discipline *dto.StoreDisciplineDTO, userId uint) error {
 	// check exists qualification
 	qualification, err := uc.qualificationRepo.GetByID(int(discipline.QualificationID))
 
@@ -177,6 +177,7 @@ func (uc *DisciplineUseCase) Store(discipline *dto.StoreDisciplineDTO) error {
 		PostRequisites:   discipline.PostRequisites,
 		PreRequisites:    discipline.PreRequisites,
 		QualificationID:  discipline.QualificationID,
+		UserId:           userId,
 	}
 
 	err = uc.disciplineRepo.Store(disciplineEntity)

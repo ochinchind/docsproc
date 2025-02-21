@@ -45,7 +45,7 @@ func New(url string, opts ...Option) (*Postgres, error) {
 }
 
 func (p *Postgres) Connect(cfg *config.Config) error {
-	conn, err := gorm.Open(postgres.Open(cfg.URL), &gorm.Config{})
+	conn, err := gorm.Open(postgres.Open(cfg.PGURL), &gorm.Config{})
 	if err != nil {
 		return err
 	}
@@ -62,11 +62,12 @@ func (p *Postgres) Migrate() error {
 		&entity.Specialty{},
 		&entity.Discipline{},
 		&entity.DisciplineModule{},
-		&entity.DisciplineModuleTopic{},
+		&entity.DisciplineModuleChapter{},
+		&entity.DisciplineModuleChapterTopic{},
 	)
 
 	if err != nil {
-		return fmt.Errorf("Migrating entities to Postgres - err: %w", err)
+		return fmt.Errorf("migrating entities to Postgres - err: %w", err)
 	}
 	return nil
 }

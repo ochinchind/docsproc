@@ -4,8 +4,6 @@ package app
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"github.com/ochinchind/docsproc/internal/usecase"
-	"github.com/ochinchind/docsproc/pkg/casbin"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,8 +12,10 @@ import (
 
 	"github.com/ochinchind/docsproc/config"
 	v1 "github.com/ochinchind/docsproc/internal/controller/http/v1"
+	"github.com/ochinchind/docsproc/internal/usecase"
 	"github.com/ochinchind/docsproc/internal/usecase/repo"
 	"github.com/ochinchind/docsproc/internal/usecase/webapi"
+	"github.com/ochinchind/docsproc/pkg/casbin"
 	"github.com/ochinchind/docsproc/pkg/httpserver"
 	"github.com/ochinchind/docsproc/pkg/logger"
 	"github.com/ochinchind/docsproc/pkg/postgres"
@@ -26,7 +26,7 @@ func Run(cfg *config.Config) {
 	l := logger.New(cfg.Log.Level)
 
 	// Repository
-	pg, err := postgres.New(cfg.PG.URL)
+	pg, err := postgres.New(cfg.PG.PGURL)
 	if err != nil {
 		l.Fatal(fmt.Errorf("app - Run - postgres.New: %w", err))
 	}
@@ -60,9 +60,14 @@ func Run(cfg *config.Config) {
 		repo.NewDisciplineRepo(pg),
 	)
 
-	disciplineModuleTopicUseCase := usecase.NewDisciplineModuleTopicUseCase(
-		repo.NewDisciplineModuleTopicRepo(pg),
+	disciplineModuleChapterUseCase := usecase.NewDisciplineModuleChapterUseCase(
+		repo.NewDisciplineModuleChapterRepo(pg),
 		repo.NewDisciplineModuleRepo(pg),
+	)
+
+	disciplineModuleChapterTopicUseCase := usecase.NewDisciplineModuleChapterTopicUseCase(
+		repo.NewDisciplineModuleChapterTopicRepo(pg),
+		repo.NewDisciplineModuleChapterRepo(pg),
 	)
 
 	authUseCase := usecase.NewAuthUseCase(
@@ -77,7 +82,8 @@ func Run(cfg *config.Config) {
 		qualificationUseCase,
 		disciplineUseCase,
 		disciplineModuleUseCase,
-		disciplineModuleTopicUseCase,
+		disciplineModuleChapterUseCase,
+		disciplineModuleChapterTopicUseCase,
 	)
 
 	err = pg.Connect(cfg)
@@ -103,6 +109,14 @@ func Run(cfg *config.Config) {
 		DB:       0,                       // Default DB
 	})
 
+	// RabbitMQ RPC Server
+	//rmqRouter := amqprpc.NewRouter(services)
+	//
+	//rmqServer, err := server.New(cfg.RMQ.RMQURL, cfg.RMQ.ServerExchange, rmqRouter, l)
+	//if err != nil {
+	//	l.Fatal(fmt.Errorf("app - Run - rmqServer - server.New: %w", err))
+	//}
+
 	_, err = rd.Ping().Result()
 	if err != nil {
 		l.Fatal("Could not connect to Redis: %v", err)
@@ -124,6 +138,9 @@ func Run(cfg *config.Config) {
 		l.Info("app - Run - signal: " + s.String())
 	case err = <-httpServer.Notify():
 		l.Error(fmt.Errorf("app - Run - httpServer.Notify: %w", err))
+		//case err = <-rmqServer.Notify():
+		//	l.Error(fmt.Errorf("app - Run - rmqServer.Notify: %w", err))
+
 	}
 
 	// Shutdown
@@ -131,5 +148,10 @@ func Run(cfg *config.Config) {
 	if err != nil {
 		l.Error(fmt.Errorf("app - Run - httpServer.Shutdown: %w", err))
 	}
+
+	//err = rmqServer.Shutdown()
+	//if err != nil {
+	//	l.Error(fmt.Errorf("app - Run - rmqServer.Shutdown: %w", err))
+	//}
 
 }

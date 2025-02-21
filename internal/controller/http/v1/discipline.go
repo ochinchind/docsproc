@@ -145,7 +145,9 @@ func (r disciplineRoutes) store(context *gin.Context) {
 		return
 	}
 
-	err := r.t.Store(discipline)
+	userId := context.MustGet("auth_user_id").(uint)
+
+	err := r.t.Store(discipline, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, response{err.Error()})
 		return

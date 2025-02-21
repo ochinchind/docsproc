@@ -19,8 +19,8 @@ type (
 		Log               `yaml:"logger"`
 		PG                `yaml:"postgres"`
 		GoogleLoginConfig oauth2.Config
-		//RMQ             `yaml:"rabbitmq"`
-		Redis `yaml:"redis"`
+		RMQ               `yaml:"rabbitmq"`
+		Redis             `yaml:"redis"`
 	}
 
 	// App -.
@@ -42,15 +42,15 @@ type (
 	// PG -.
 	PG struct {
 		//PoolMax int    `env-required:"true" yaml:"pool_max" env:"PG_POOL_MAX"`
-		URL string `env-required:"true"                 env:"PG_URL"`
+		PGURL string `env-required:"true"                 env:"PG_URL"`
 	}
 
 	// RMQ -.
-	//RMQ struct {
-	//	ServerExchange string `env-required:"true" yaml:"rpc_server_exchange" env:"RMQ_RPC_SERVER"`
-	//	ClientExchange string `env-required:"true" yaml:"rpc_client_exchange" env:"RMQ_RPC_CLIENT"`
-	//	URL            string `env-required:"true"                            env:"RMQ_URL"`
-	//}
+	RMQ struct {
+		ServerExchange string `env-required:"true" yaml:"rpc_server_exchange" env:"RMQ_RPC_SERVER"`
+		ClientExchange string `env-required:"true" yaml:"rpc_client_exchange" env:"RMQ_RPC_CLIENT"`
+		RMQURL         string `env-required:"true"                            env:"RMQ_URL"`
+	}
 
 	// Redis -.
 	Redis struct {
@@ -81,7 +81,7 @@ func NewConfig() (*Config, error) {
 	}
 
 	AppConfig.GoogleLoginConfig = oauth2.Config{
-		RedirectURL:  "http://localhost:8080/google_callback",
+		RedirectURL:  os.Getenv("GOOGLE_REDIRECT_URL"),
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
 		ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 		Scopes: []string{"https://www.googleapis.com/auth/userinfo.email",
