@@ -11,13 +11,15 @@ import (
 type DisciplineUseCase struct {
 	disciplineRepo    DisciplineRepo
 	qualificationRepo QualificationRepo
+	competencyRepo    CompetencyRepo
 }
 
 // NewDisciplineUseCase -.
-func NewDisciplineUseCase(disciplineRepo DisciplineRepo, qualificationRepo QualificationRepo) *DisciplineUseCase {
+func NewDisciplineUseCase(disciplineRepo DisciplineRepo, qualificationRepo QualificationRepo, competencyRepo CompetencyRepo) *DisciplineUseCase {
 	return &DisciplineUseCase{
 		disciplineRepo:    disciplineRepo,
 		qualificationRepo: qualificationRepo,
+		competencyRepo:    competencyRepo,
 	}
 }
 
@@ -71,56 +73,42 @@ func (uc *DisciplineUseCase) Update(id int, discipline *dto.UpdateDisciplineDTO)
 		disciplineEntity.AssessmentType = discipline.AssessmentType
 	}
 
-	if discipline.Competencies != "" {
-		disciplineEntity.Competencies = discipline.Competencies
+	if discipline.CompetencyID != 0 {
+		competency, err := uc.competencyRepo.GetByID(int(discipline.CompetencyID))
+
+		if err != nil {
+			return err
+		}
+
+		if competency == nil {
+			return errors.New("competency not found")
+		}
+
+		disciplineEntity.CompetencyID = discipline.CompetencyID
 	}
 
 	if discipline.Desc != "" {
 		disciplineEntity.Desc = discipline.Desc
 	}
 
-	if discipline.HoursIndividual != nil {
-		disciplineEntity.HoursIndividual = *discipline.HoursIndividual
-	}
-
-	if discipline.HoursInternship != nil {
-		disciplineEntity.HoursInternship = *discipline.HoursInternship
-	}
-
-	if discipline.HoursPractice != nil {
-		disciplineEntity.HoursPractice = *discipline.HoursPractice
-	}
-
-	if discipline.HoursSelfStudy != nil {
-		disciplineEntity.HoursSelfStudy = *discipline.HoursSelfStudy
-	}
-
-	if discipline.HoursTheory != nil {
-		disciplineEntity.HoursTheory = *discipline.HoursTheory
-	}
-
 	if discipline.HoursTotal != nil {
 		disciplineEntity.HoursTotal = *discipline.HoursTotal
 	}
 
-	if discipline.HoursWithTeacher != nil {
-		disciplineEntity.HoursWithTeacher = *discipline.HoursWithTeacher
+	if discipline.CreaditsCount != nil {
+		disciplineEntity.CreaditsCount = *discipline.CreaditsCount
+	}
+
+	if discipline.EducationForm != "" {
+		disciplineEntity.EducationForm = discipline.EducationForm
+	}
+
+	if discipline.EducationBase != "" {
+		disciplineEntity.EducationBase = discipline.EducationBase
 	}
 
 	if discipline.Lang != "" {
 		disciplineEntity.Lang = discipline.Lang
-	}
-
-	if discipline.Necessities != "" {
-		disciplineEntity.Necessities = discipline.Necessities
-	}
-
-	if discipline.PostRequisites != "" {
-		disciplineEntity.PostRequisites = discipline.PostRequisites
-	}
-
-	if discipline.PreRequisites != "" {
-		disciplineEntity.PreRequisites = discipline.PreRequisites
 	}
 
 	if discipline.QualificationID != 0 {
@@ -159,25 +147,28 @@ func (uc *DisciplineUseCase) Store(discipline *dto.StoreDisciplineDTO, userId ui
 		return errors.New("qualification not found")
 	}
 
+	competency, err := uc.competencyRepo.GetByID(int(discipline.CompetencyID))
+
+	if err != nil {
+		return err
+	}
+
+	if competency == nil {
+		return errors.New("competency not found")
+	}
+
 	disciplineEntity := &entity.Discipline{
-		Name:             discipline.Name,
-		Code:             discipline.Code,
-		AssessmentType:   discipline.AssessmentType,
-		Competencies:     discipline.Competencies,
-		Desc:             discipline.Desc,
-		HoursIndividual:  discipline.HoursIndividual,
-		HoursInternship:  discipline.HoursInternship,
-		HoursPractice:    discipline.HoursPractice,
-		HoursSelfStudy:   discipline.HoursSelfStudy,
-		HoursTheory:      discipline.HoursTheory,
-		HoursTotal:       discipline.HoursTotal,
-		HoursWithTeacher: discipline.HoursWithTeacher,
-		Lang:             discipline.Lang,
-		Necessities:      discipline.Necessities,
-		PostRequisites:   discipline.PostRequisites,
-		PreRequisites:    discipline.PreRequisites,
-		QualificationID:  discipline.QualificationID,
-		UserId:           userId,
+		Name:            discipline.Name,
+		Code:            discipline.Code,
+		AssessmentType:  discipline.AssessmentType,
+		CompetencyID:    discipline.CompetencyID,
+		Desc:            discipline.Desc,
+		CreaditsCount:   discipline.CreaditsCount,
+		EducationForm:   discipline.EducationForm,
+		EducationBase:   discipline.EducationBase,
+		HoursTotal:      discipline.HoursTotal,
+		Lang:            discipline.Lang,
+		QualificationID: discipline.QualificationID,
 	}
 
 	err = uc.disciplineRepo.Store(disciplineEntity)

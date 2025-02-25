@@ -77,6 +77,38 @@ func (uc *DisciplineModuleUseCase) Update(id int, disciplineModule *dto.UpdateDi
 		disciplineModuleEntity.DisciplineID = disciplineModule.DisciplineID
 	}
 
+	if disciplineModule.FirstSemester != nil {
+		disciplineModuleEntity.FirstSemester = *disciplineModule.FirstSemester
+	}
+
+	if disciplineModule.SecondSemester != nil {
+		disciplineModuleEntity.SecondSemester = *disciplineModule.SecondSemester
+	}
+
+	if disciplineModule.ThirdSemester != nil {
+		disciplineModuleEntity.ThirdSemester = *disciplineModule.ThirdSemester
+	}
+
+	if disciplineModule.FourthSemester != nil {
+		disciplineModuleEntity.FourthSemester = *disciplineModule.FourthSemester
+	}
+
+	if disciplineModule.FifthSemester != nil {
+		disciplineModuleEntity.FifthSemester = *disciplineModule.FifthSemester
+	}
+
+	if disciplineModule.SixthSemester != nil {
+		disciplineModuleEntity.SixthSemester = *disciplineModule.SixthSemester
+	}
+
+	if disciplineModule.SeventhSemester != nil {
+		disciplineModuleEntity.SeventhSemester = *disciplineModule.SeventhSemester
+	}
+
+	if disciplineModule.EighthSemester != nil {
+		disciplineModuleEntity.EighthSemester = *disciplineModule.EighthSemester
+	}
+
 	err = uc.disciplineModuleRepo.Update(disciplineModuleEntity)
 
 	if err != nil {
@@ -100,8 +132,16 @@ func (uc *DisciplineModuleUseCase) Store(disciplineModule *dto.StoreDisciplineMo
 	}
 
 	disciplineModuleEntity := &entity.DisciplineModule{
-		Name:         disciplineModule.Name,
-		DisciplineID: disciplineModule.DisciplineID,
+		Name:            disciplineModule.Name,
+		DisciplineID:    disciplineModule.DisciplineID,
+		FirstSemester:   disciplineModule.FirstSemester,
+		SecondSemester:  disciplineModule.SecondSemester,
+		ThirdSemester:   disciplineModule.ThirdSemester,
+		FourthSemester:  disciplineModule.FourthSemester,
+		FifthSemester:   disciplineModule.FifthSemester,
+		SixthSemester:   disciplineModule.SixthSemester,
+		SeventhSemester: disciplineModule.SeventhSemester,
+		EighthSemester:  disciplineModule.EighthSemester,
 	}
 
 	err = uc.disciplineModuleRepo.Store(disciplineModuleEntity)

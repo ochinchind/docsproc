@@ -178,6 +178,157 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/competencies": {
+            "get": {
+                "description": "Fetch a list of competencies.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Competencies"
+                ],
+                "summary": "Get Competencies",
+                "operationId": "get_competencies",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with competency list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getCompetenciesResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Store a new competency.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Competencies"
+                ],
+                "summary": "Store Competency",
+                "operationId": "store_competency",
+                "parameters": [
+                    {
+                        "description": "Competency request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StoreCompetencyDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully stored",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/competencies/{id}": {
+            "get": {
+                "description": "Fetch a competency by ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Competencies"
+                ],
+                "summary": "Get Competency",
+                "operationId": "get_competency",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Competency ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with competency",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Competency"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a competency.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Competencies"
+                ],
+                "summary": "Delete Competency",
+                "operationId": "delete_competency",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Competency ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/disciplineModuleChapterTopics": {
             "get": {
                 "description": "Fetch a list of disciplineModuleChapterTopics.",
@@ -610,6 +761,157 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "DisciplineModule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully deleted",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/disciplineStudyPlans": {
+            "get": {
+                "description": "Fetch a list of disciplineStudyPlans.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineStudyPlans"
+                ],
+                "summary": "Get DisciplineStudyPlans",
+                "operationId": "get_disciplineStudyPlans",
+                "responses": {
+                    "200": {
+                        "description": "Successful response with disciplineStudyPlan list",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getDisciplineStudyPlansResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Store a new disciplineStudyPlan.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineStudyPlans"
+                ],
+                "summary": "Store DisciplineStudyPlan",
+                "operationId": "store_disciplineStudyPlan",
+                "parameters": [
+                    {
+                        "description": "DisciplineStudyPlan request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StoreDisciplineStudyPlanDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully stored",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/disciplineStudyPlans/{id}": {
+            "get": {
+                "description": "Fetch a disciplineStudyPlan by ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineStudyPlans"
+                ],
+                "summary": "Get DisciplineStudyPlan",
+                "operationId": "get_disciplineStudyPlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DisciplineStudyPlan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with disciplineStudyPlan",
+                        "schema": {
+                            "$ref": "#/definitions/entity.DisciplineStudyPlan"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a disciplineStudyPlan.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineStudyPlans"
+                ],
+                "summary": "Delete DisciplineStudyPlan",
+                "operationId": "delete_disciplineStudyPlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DisciplineStudyPlan ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1352,9 +1654,26 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.StoreCompetencyDTO": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Competency Name"
+                }
+            }
+        },
         "dto.StoreDisciplineDTO": {
             "type": "object",
             "required": [
+                "competency_id",
+                "credits_count",
+                "education_base",
+                "education_form",
+                "hours_total",
                 "name",
                 "qualification_id"
             ],
@@ -1367,41 +1686,33 @@ const docTemplate = `{
                     "type": "string",
                     "example": "00342342413"
                 },
-                "competencies": {
+                "competency_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "contact_info": {
                     "type": "string",
-                    "example": "1,2,3"
+                    "example": "John Doe"
+                },
+                "credits_count": {
+                    "type": "integer",
+                    "example": 100
                 },
                 "desc": {
                     "type": "string",
                     "example": "John Doe"
                 },
-                "hours_individual": {
-                    "type": "integer",
-                    "example": 0
+                "education_base": {
+                    "type": "string",
+                    "example": "main"
                 },
-                "hours_internship": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "hours_practice": {
-                    "type": "integer",
-                    "example": 50
-                },
-                "hours_self_study": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "hours_theory": {
-                    "type": "integer",
-                    "example": 50
+                "education_form": {
+                    "type": "string",
+                    "example": "full-time"
                 },
                 "hours_total": {
                     "type": "integer",
                     "example": 100
-                },
-                "hours_with_teacher": {
-                    "type": "integer",
-                    "example": 0
                 },
                 "lang": {
                     "type": "string",
@@ -1410,18 +1721,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "Discipline Name"
-                },
-                "necessities": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
-                "post_requisites": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
-                "pre_requisites": {
-                    "type": "string",
-                    "example": "1,2,3"
                 },
                 "qualification_id": {
                     "type": "integer",
@@ -1508,9 +1807,66 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
+                "eighth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "fifth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "first_semester": {
+                    "type": "integer",
+                    "example": 73
+                },
+                "fourth_semester": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "name": {
                     "type": "string",
                     "example": "DisciplineModule Name"
+                },
+                "second_semester": {
+                    "type": "integer",
+                    "example": 48
+                },
+                "seventh_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "sixth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "third_semester": {
+                    "type": "integer",
+                    "example": 0
+                }
+            }
+        },
+        "dto.StoreDisciplineStudyPlanDTO": {
+            "type": "object",
+            "properties": {
+                "contact_info": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "discipline_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "necessities": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "post_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "pre_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
                 }
             }
         },
@@ -1553,6 +1909,15 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdateCompetencyDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Competency Name"
+                }
+            }
+        },
         "dto.UpdateDisciplineDTO": {
             "type": "object",
             "properties": {
@@ -1564,41 +1929,33 @@ const docTemplate = `{
                     "type": "string",
                     "example": "00342342413"
                 },
-                "competencies": {
+                "competency_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "contact_info": {
                     "type": "string",
-                    "example": "1,2,3"
+                    "example": "John Doe"
+                },
+                "credits_count": {
+                    "type": "integer",
+                    "example": 100
                 },
                 "desc": {
                     "type": "string",
                     "example": "John Doe"
                 },
-                "hours_individual": {
-                    "type": "integer",
-                    "example": 0
+                "education_base": {
+                    "type": "string",
+                    "example": "main"
                 },
-                "hours_internship": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "hours_practice": {
-                    "type": "integer",
-                    "example": 50
-                },
-                "hours_self_study": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "hours_theory": {
-                    "type": "integer",
-                    "example": 50
+                "education_form": {
+                    "type": "string",
+                    "example": "full-time"
                 },
                 "hours_total": {
                     "type": "integer",
                     "example": 100
-                },
-                "hours_with_teacher": {
-                    "type": "integer",
-                    "example": 0
                 },
                 "lang": {
                     "type": "string",
@@ -1607,18 +1964,6 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "Discipline Name"
-                },
-                "necessities": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
-                "post_requisites": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
-                "pre_requisites": {
-                    "type": "string",
-                    "example": "1,2,3"
                 },
                 "qualification_id": {
                     "type": "integer",
@@ -1692,9 +2037,66 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 1
                 },
+                "eighth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "fifth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "first_semester": {
+                    "type": "integer",
+                    "example": 73
+                },
+                "fourth_semester": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "name": {
                     "type": "string",
                     "example": "DisciplineModule Name"
+                },
+                "second_semester": {
+                    "type": "integer",
+                    "example": 48
+                },
+                "seventh_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "sixth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "third_semester": {
+                    "type": "integer",
+                    "example": 0
+                }
+            }
+        },
+        "dto.UpdateDisciplineStudyPlanDTO": {
+            "type": "object",
+            "properties": {
+                "contact_info": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "discipline_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "necessities": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "post_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "pre_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
                 }
             }
         },
@@ -1776,7 +2178,7 @@ const docTemplate = `{
                     "type": "string",
                     "enum": [
                         "admin",
-                        "user",
+                        "teacher",
                         "methodologist"
                     ],
                     "example": "user"
@@ -1791,6 +2193,27 @@ const docTemplate = `{
                 }
             }
         },
+        "entity.Competency": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
         "entity.Discipline": {
             "type": "object",
             "properties": {
@@ -1802,13 +2225,17 @@ const docTemplate = `{
                     "type": "string",
                     "example": "JHN"
                 },
-                "competencies": {
-                    "type": "string",
-                    "example": "1,2,3"
+                "competency_id": {
+                    "type": "integer",
+                    "example": 1
                 },
                 "created_at": {
                     "type": "string",
                     "example": "2021-01-01T00:00:00Z"
+                },
+                "credits_count": {
+                    "type": "integer",
+                    "example": 100
                 },
                 "desc": {
                     "type": "string",
@@ -1820,33 +2247,17 @@ const docTemplate = `{
                         "$ref": "#/definitions/entity.DisciplineModule"
                     }
                 },
-                "hours_individual": {
-                    "type": "integer",
-                    "example": 0
+                "education_base": {
+                    "type": "string",
+                    "example": "main"
                 },
-                "hours_internship": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "hours_practice": {
-                    "type": "integer",
-                    "example": 50
-                },
-                "hours_self_study": {
-                    "type": "integer",
-                    "example": 0
-                },
-                "hours_theory": {
-                    "type": "integer",
-                    "example": 50
+                "education_form": {
+                    "type": "string",
+                    "example": "full-time"
                 },
                 "hours_total": {
                     "type": "integer",
                     "example": 100
-                },
-                "hours_with_teacher": {
-                    "type": "integer",
-                    "example": 0
                 },
                 "id": {
                     "type": "integer",
@@ -1860,18 +2271,6 @@ const docTemplate = `{
                     "type": "string",
                     "example": "John"
                 },
-                "necessities": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
-                "post_requisites": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
-                "pre_requisites": {
-                    "type": "string",
-                    "example": "1,2,3"
-                },
                 "qualification_id": {
                     "type": "integer",
                     "example": 1
@@ -1879,10 +2278,6 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "string",
                     "example": "2021-01-01T00:00:00Z"
-                },
-                "user_id": {
-                    "type": "integer",
-                    "example": 1
                 }
             }
         },
@@ -1903,6 +2298,22 @@ const docTemplate = `{
                         "$ref": "#/definitions/entity.DisciplineModuleChapter"
                     }
                 },
+                "eighth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "fifth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "first_semester": {
+                    "type": "integer",
+                    "example": 73
+                },
+                "fourth_semester": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "id": {
                     "type": "integer",
                     "example": 1
@@ -1910,6 +2321,22 @@ const docTemplate = `{
                 "name": {
                     "type": "string",
                     "example": "John"
+                },
+                "second_semester": {
+                    "type": "integer",
+                    "example": 48
+                },
+                "seventh_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "sixth_semester": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "third_semester": {
+                    "type": "integer",
+                    "example": 0
                 },
                 "updated_at": {
                     "type": "string",
@@ -2002,6 +2429,35 @@ const docTemplate = `{
                 "updated_at": {
                     "type": "string",
                     "example": "2021-01-01T00:00:00Z"
+                }
+            }
+        },
+        "entity.DisciplineStudyPlan": {
+            "type": "object",
+            "properties": {
+                "contact_info": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "discipline_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "necessities": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "post_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
+                },
+                "pre_requisites": {
+                    "type": "string",
+                    "example": "1,2,3"
                 }
             }
         },
@@ -2129,6 +2585,20 @@ const docTemplate = `{
                 }
             }
         },
+        "v1.getCompetenciesResponse": {
+            "type": "object",
+            "properties": {
+                "competencies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Competency"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "v1.getDisciplineModuleChapterTopicsResponse": {
             "type": "object",
             "properties": {
@@ -2164,6 +2634,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/entity.DisciplineModule"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.getDisciplineStudyPlansResponse": {
+            "type": "object",
+            "properties": {
+                "disciplineStudyPlans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.DisciplineStudyPlan"
                     }
                 },
                 "total": {

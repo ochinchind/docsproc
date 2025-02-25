@@ -80,6 +80,24 @@ type (
 		GetByID(id int) (*entity.Qualification, error)
 	}
 
+	// Competency -.
+	Competency interface {
+		Get(context *gin.Context) ([]entity.Competency, int64, error)
+		GetByID(id int) (*entity.Competency, error)
+		Update(id int, competency *dto.UpdateCompetencyDTO) error
+		Store(competency *dto.StoreCompetencyDTO) error
+		Delete(id int) error
+	}
+
+	// CompetencyRepo -.
+	CompetencyRepo interface {
+		Get(context *gin.Context) ([]entity.Competency, int64, error)
+		Update(competency *entity.Competency) error
+		Delete(competency *entity.Competency) error
+		Store(competency *entity.Competency) error
+		GetByID(id int) (*entity.Competency, error)
+	}
+
 	// Discipline -.
 	Discipline interface {
 		Get(context *gin.Context) ([]entity.Discipline, int64, error)
@@ -114,6 +132,24 @@ type (
 		Delete(disciplineModule *entity.DisciplineModule) error
 		Store(disciplineModule *entity.DisciplineModule) error
 		GetByID(id int) (*entity.DisciplineModule, error)
+	}
+
+	// DisciplineStudyPlan -.
+	DisciplineStudyPlan interface {
+		Get(context *gin.Context) ([]entity.DisciplineStudyPlan, int64, error)
+		GetByID(id int) (*entity.DisciplineStudyPlan, error)
+		Update(id int, disciplineStudyPlan *dto.UpdateDisciplineStudyPlanDTO) error
+		Store(disciplineStudyPlan *dto.StoreDisciplineStudyPlanDTO) error
+		Delete(id int) error
+	}
+
+	// DisciplineStudyPlanRepo -.
+	DisciplineStudyPlanRepo interface {
+		Get(context *gin.Context) ([]entity.DisciplineStudyPlan, int64, error)
+		Update(disciplineStudyPlan *entity.DisciplineStudyPlan) error
+		Delete(disciplineStudyPlan *entity.DisciplineStudyPlan) error
+		Store(disciplineStudyPlan *entity.DisciplineStudyPlan) error
+		GetByID(id int) (*entity.DisciplineStudyPlan, error)
 	}
 
 	// DisciplineModuleChapter -.

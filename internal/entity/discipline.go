@@ -11,20 +11,13 @@ type Discipline struct {
 	Code              string             `json:"code"             example:"JHN"                                  gorm:"type:varchar;"`
 	Desc              string             `json:"desc"             example:"John Doe"                             gorm:"type:varchar;"`
 	Lang              string             `json:"lang"             example:"en"                                   gorm:"type:varchar;"`
-	HoursTotal        int                `json:"hours_total"      example:"100"                                  gorm:"type:int;"`
-	HoursTheory       int                `json:"hours_theory"     example:"50"                                   gorm:"type:int;"`
-	HoursPractice     int                `json:"hours_practice"   example:"50"                                   gorm:"type:int;"`
-	HoursIndividual   int                `json:"hours_individual" example:"0"                                    gorm:"type:int;"`
-	HoursWithTeacher  int                `json:"hours_with_teacher" example:"0"                                gorm:"type:int;"`
-	HoursSelfStudy    int                `json:"hours_self_study"  example:"0"                                gorm:"type:int;"`
-	HoursInternship   int                `json:"hours_internship"  example:"0"                                gorm:"type:int;"`
+	HoursTotal        int                `json:"hours_total"      example:"100"                                  gorm:"type:int;not null"`
+	CreaditsCount     int                `json:"credits_count"    example:"100"                                  gorm:"type:int;not null"`
+	EducationForm     string             `json:"education_form"    example:"full-time"                          gorm:"type:varchar;not null"`
+	EducationBase     string             `json:"education_base"    example:"main"                               gorm:"type:varchar;not null"`
 	AssessmentType    string             `json:"assessment_type"   example:"exam"                                gorm:"type:varchar;"`
-	Competencies      string             `json:"competencies"     example:"1,2,3"                               gorm:"type:text;"`
-	PreRequisites     string             `json:"pre_requisites"   example:"1,2,3"                               gorm:"type:text;"`
-	PostRequisites    string             `json:"post_requisites"  example:"1,2,3"                              gorm:"type:text;"`
-	Necessities       string             `json:"necessities"      example:"1,2,3"                               gorm:"type:text;"`
+	CompetencyID      uint               `json:"competency_id"     example:"1"                                   gorm:"type:bigint;index;not null"`
 	QualificationID   uint               `json:"qualification_id" example:"1"                                   gorm:"type:bigint;index;not null"`
-	UserId            uint               `json:"user_id"          example:"1"                                   gorm:"type:bigint;index;not null"`
 	CreatedAt         time.Time          `json:"created_at"       example:"2021-01-01T00:00:00Z"                 gorm:"autoCreateTime"`
 	UpdatedAt         time.Time          `json:"updated_at"       example:"2021-01-01T00:00:00Z"                 gorm:"autoUpdateTime"`
 	DeletedAt         gorm.DeletedAt     `json:"-"            example:"2021-01-01T00:00:00Z"                     gorm:"index"`

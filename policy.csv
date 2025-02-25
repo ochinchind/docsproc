@@ -3,11 +3,28 @@ p, admin, specialty, read
 p, admin, specialty, write
 p, admin, qualification, read
 p, admin, qualification, write
+p, admin, competency, read
+p, admin, competency, write
 p, admin, discipline, read
 p, admin, discipline, write
+p, admin, disciplineStudyPlan, read
+p, admin, disciplineStudyPlan, write
+p, admin, disciplineAdmin, write
 p, admin, disciplineModule, read
 p, admin, disciplineModule, write
 p, admin, disciplineModuleChapter, read
 p, admin, disciplineModuleChapter, write
 p, admin, disciplineModuleChapterTopic, read
 p, admin, disciplineModuleChapterTopic, write
+
+
+p, teacher, specialty, read
+p, teacher, qualification, read
+p, teacher, discipline, read
+p, teacher, discipline, write
+p, teacher, disciplineModule, read
+p, teacher, disciplineModule, write
+p, teacher, disciplineModuleChapter, read
+p, teacher, disciplineModuleChapter, write
+p, teacher, disciplineModuleChapterTopic, read
+p, teacher, disciplineModuleChapterTopic, write

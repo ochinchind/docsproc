@@ -8,5 +8,5 @@ type UpdateUserDTO struct {
 	Password string `json:"password"    example:"password"`
 	Surname  string `json:"surname"     example:"Doe"`
 	Phone    string `json:"phone"       example:"+1234567890"`
-	Role     string `json:"role"        example:"user"  validate:"oneof=admin user methodologist"`
+	Role     string `json:"role"        example:"user"  validate:"oneof=admin teacher methodologist"`
 }

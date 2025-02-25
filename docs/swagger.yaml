@@ -45,6 +45,14 @@ definitions:
     - password
     - username
     type: object
+  dto.StoreCompetencyDTO:
+    properties:
+      name:
+        example: Competency Name
+        type: string
+    required:
+    - name
+    type: object
   dto.StoreDisciplineDTO:
     properties:
       assessment_type:
@@ -53,32 +61,26 @@ definitions:
       code:
         example: "00342342413"
         type: string
-      competencies:
-        example: 1,2,3
+      competency_id:
+        example: 1
+        type: integer
+      contact_info:
+        example: John Doe
         type: string
+      credits_count:
+        example: 100
+        type: integer
       desc:
         example: John Doe
         type: string
-      hours_individual:
-        example: 0
-        type: integer
-      hours_internship:
-        example: 0
-        type: integer
-      hours_practice:
-        example: 50
-        type: integer
-      hours_self_study:
-        example: 0
-        type: integer
-      hours_theory:
-        example: 50
-        type: integer
+      education_base:
+        example: main
+        type: string
+      education_form:
+        example: full-time
+        type: string
       hours_total:
         example: 100
-        type: integer
-      hours_with_teacher:
-        example: 0
         type: integer
       lang:
         example: en
@@ -86,19 +88,15 @@ definitions:
       name:
         example: Discipline Name
         type: string
-      necessities:
-        example: 1,2,3
-        type: string
-      post_requisites:
-        example: 1,2,3
-        type: string
-      pre_requisites:
-        example: 1,2,3
-        type: string
       qualification_id:
         example: 1
         type: integer
     required:
+    - competency_id
+    - credits_count
+    - education_base
+    - education_form
+    - hours_total
     - name
     - qualification_id
     type: object
@@ -157,12 +155,54 @@ definitions:
       discipline_id:
         example: 1
         type: integer
+      eighth_semester:
+        example: 1
+        type: integer
+      fifth_semester:
+        example: 1
+        type: integer
+      first_semester:
+        example: 73
+        type: integer
+      fourth_semester:
+        example: 0
+        type: integer
       name:
         example: DisciplineModule Name
         type: string
+      second_semester:
+        example: 48
+        type: integer
+      seventh_semester:
+        example: 1
+        type: integer
+      sixth_semester:
+        example: 1
+        type: integer
+      third_semester:
+        example: 0
+        type: integer
     required:
     - discipline_id
     - name
+    type: object
+  dto.StoreDisciplineStudyPlanDTO:
+    properties:
+      contact_info:
+        example: John Doe
+        type: string
+      discipline_id:
+        example: 1
+        type: integer
+      necessities:
+        example: 1,2,3
+        type: string
+      post_requisites:
+        example: 1,2,3
+        type: string
+      pre_requisites:
+        example: 1,2,3
+        type: string
     type: object
   dto.StoreQualificationDTO:
     properties:
@@ -192,6 +232,12 @@ definitions:
     - code
     - name
     type: object
+  dto.UpdateCompetencyDTO:
+    properties:
+      name:
+        example: Competency Name
+        type: string
+    type: object
   dto.UpdateDisciplineDTO:
     properties:
       assessment_type:
@@ -200,47 +246,32 @@ definitions:
       code:
         example: "00342342413"
         type: string
-      competencies:
-        example: 1,2,3
+      competency_id:
+        example: 1
+        type: integer
+      contact_info:
+        example: John Doe
         type: string
+      credits_count:
+        example: 100
+        type: integer
       desc:
         example: John Doe
         type: string
-      hours_individual:
-        example: 0
-        type: integer
-      hours_internship:
-        example: 0
-        type: integer
-      hours_practice:
-        example: 50
-        type: integer
-      hours_self_study:
-        example: 0
-        type: integer
-      hours_theory:
-        example: 50
-        type: integer
+      education_base:
+        example: main
+        type: string
+      education_form:
+        example: full-time
+        type: string
       hours_total:
         example: 100
-        type: integer
-      hours_with_teacher:
-        example: 0
         type: integer
       lang:
         example: en
         type: string
       name:
         example: Discipline Name
-        type: string
-      necessities:
-        example: 1,2,3
-        type: string
-      post_requisites:
-        example: 1,2,3
-        type: string
-      pre_requisites:
-        example: 1,2,3
         type: string
       qualification_id:
         example: 1
@@ -294,8 +325,50 @@ definitions:
       discipline_id:
         example: 1
         type: integer
+      eighth_semester:
+        example: 1
+        type: integer
+      fifth_semester:
+        example: 1
+        type: integer
+      first_semester:
+        example: 73
+        type: integer
+      fourth_semester:
+        example: 0
+        type: integer
       name:
         example: DisciplineModule Name
+        type: string
+      second_semester:
+        example: 48
+        type: integer
+      seventh_semester:
+        example: 1
+        type: integer
+      sixth_semester:
+        example: 1
+        type: integer
+      third_semester:
+        example: 0
+        type: integer
+    type: object
+  dto.UpdateDisciplineStudyPlanDTO:
+    properties:
+      contact_info:
+        example: John Doe
+        type: string
+      discipline_id:
+        example: 1
+        type: integer
+      necessities:
+        example: 1,2,3
+        type: string
+      post_requisites:
+        example: 1,2,3
+        type: string
+      pre_requisites:
+        example: 1,2,3
         type: string
     type: object
   dto.UpdateProfileDTO:
@@ -354,7 +427,7 @@ definitions:
       role:
         enum:
         - admin
-        - user
+        - teacher
         - methodologist
         example: user
         type: string
@@ -365,6 +438,21 @@ definitions:
         example: john.doe
         type: string
     type: object
+  entity.Competency:
+    properties:
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John
+        type: string
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+    type: object
   entity.Discipline:
     properties:
       assessment_type:
@@ -373,12 +461,15 @@ definitions:
       code:
         example: JHN
         type: string
-      competencies:
-        example: 1,2,3
-        type: string
+      competency_id:
+        example: 1
+        type: integer
       created_at:
         example: "2021-01-01T00:00:00Z"
         type: string
+      credits_count:
+        example: 100
+        type: integer
       desc:
         example: John Doe
         type: string
@@ -386,26 +477,14 @@ definitions:
         items:
           $ref: '#/definitions/entity.DisciplineModule'
         type: array
-      hours_individual:
-        example: 0
-        type: integer
-      hours_internship:
-        example: 0
-        type: integer
-      hours_practice:
-        example: 50
-        type: integer
-      hours_self_study:
-        example: 0
-        type: integer
-      hours_theory:
-        example: 50
-        type: integer
+      education_base:
+        example: main
+        type: string
+      education_form:
+        example: full-time
+        type: string
       hours_total:
         example: 100
-        type: integer
-      hours_with_teacher:
-        example: 0
         type: integer
       id:
         example: 1
@@ -416,24 +495,12 @@ definitions:
       name:
         example: John
         type: string
-      necessities:
-        example: 1,2,3
-        type: string
-      post_requisites:
-        example: 1,2,3
-        type: string
-      pre_requisites:
-        example: 1,2,3
-        type: string
       qualification_id:
         example: 1
         type: integer
       updated_at:
         example: "2021-01-01T00:00:00Z"
         type: string
-      user_id:
-        example: 1
-        type: integer
     type: object
   entity.DisciplineModule:
     properties:
@@ -447,12 +514,36 @@ definitions:
         items:
           $ref: '#/definitions/entity.DisciplineModuleChapter'
         type: array
+      eighth_semester:
+        example: 1
+        type: integer
+      fifth_semester:
+        example: 1
+        type: integer
+      first_semester:
+        example: 73
+        type: integer
+      fourth_semester:
+        example: 0
+        type: integer
       id:
         example: 1
         type: integer
       name:
         example: John
         type: string
+      second_semester:
+        example: 48
+        type: integer
+      seventh_semester:
+        example: 1
+        type: integer
+      sixth_semester:
+        example: 1
+        type: integer
+      third_semester:
+        example: 0
+        type: integer
       updated_at:
         example: "2021-01-01T00:00:00Z"
         type: string
@@ -519,6 +610,27 @@ definitions:
         type: string
       updated_at:
         example: "2021-01-01T00:00:00Z"
+        type: string
+    type: object
+  entity.DisciplineStudyPlan:
+    properties:
+      contact_info:
+        example: John Doe
+        type: string
+      discipline_id:
+        example: 1
+        type: integer
+      id:
+        example: 1
+        type: integer
+      necessities:
+        example: 1,2,3
+        type: string
+      post_requisites:
+        example: 1,2,3
+        type: string
+      pre_requisites:
+        example: 1,2,3
         type: string
     type: object
   entity.Qualification:
@@ -611,6 +723,15 @@ definitions:
         example: johndoe
         type: string
     type: object
+  v1.getCompetenciesResponse:
+    properties:
+      competencies:
+        items:
+          $ref: '#/definitions/entity.Competency'
+        type: array
+      total:
+        type: integer
+    type: object
   v1.getDisciplineModuleChapterTopicsResponse:
     properties:
       disciplineModuleChapterTopics:
@@ -634,6 +755,15 @@ definitions:
       disciplineModules:
         items:
           $ref: '#/definitions/entity.DisciplineModule'
+        type: array
+      total:
+        type: integer
+    type: object
+  v1.getDisciplineStudyPlansResponse:
+    properties:
+      disciplineStudyPlans:
+        items:
+          $ref: '#/definitions/entity.DisciplineStudyPlan'
         type: array
       total:
         type: integer
@@ -806,6 +936,107 @@ paths:
       summary: User Registration
       tags:
       - Auth
+  /v1/competencies:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of competencies.
+      operationId: get_competencies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with competency list
+          schema:
+            $ref: '#/definitions/v1.getCompetenciesResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Competencies
+      tags:
+      - Competencies
+    post:
+      consumes:
+      - application/json
+      description: Store a new competency.
+      operationId: store_competency
+      parameters:
+      - description: Competency request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreCompetencyDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store Competency
+      tags:
+      - Competencies
+  /v1/competencies/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a competency.
+      operationId: delete_competency
+      parameters:
+      - description: Competency ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete Competency
+      tags:
+      - Competencies
+    get:
+      consumes:
+      - application/json
+      description: Fetch a competency by ID.
+      operationId: get_competency
+      parameters:
+      - description: Competency ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with competency
+          schema:
+            $ref: '#/definitions/entity.Competency'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get Competency
+      tags:
+      - Competencies
   /v1/disciplineModuleChapterTopics:
     get:
       consumes:
@@ -1109,6 +1340,107 @@ paths:
       summary: Get DisciplineModule
       tags:
       - DisciplineModules
+  /v1/disciplineStudyPlans:
+    get:
+      consumes:
+      - application/json
+      description: Fetch a list of disciplineStudyPlans.
+      operationId: get_disciplineStudyPlans
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineStudyPlan list
+          schema:
+            $ref: '#/definitions/v1.getDisciplineStudyPlansResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get DisciplineStudyPlans
+      tags:
+      - DisciplineStudyPlans
+    post:
+      consumes:
+      - application/json
+      description: Store a new disciplineStudyPlan.
+      operationId: store_disciplineStudyPlan
+      parameters:
+      - description: DisciplineStudyPlan request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StoreDisciplineStudyPlanDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully stored
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Store DisciplineStudyPlan
+      tags:
+      - DisciplineStudyPlans
+  /v1/disciplineStudyPlans/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a disciplineStudyPlan.
+      operationId: delete_disciplineStudyPlan
+      parameters:
+      - description: DisciplineStudyPlan ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Delete DisciplineStudyPlan
+      tags:
+      - DisciplineStudyPlans
+    get:
+      consumes:
+      - application/json
+      description: Fetch a disciplineStudyPlan by ID.
+      operationId: get_disciplineStudyPlan
+      parameters:
+      - description: DisciplineStudyPlan ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineStudyPlan
+          schema:
+            $ref: '#/definitions/entity.DisciplineStudyPlan'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Get DisciplineStudyPlan
+      tags:
+      - DisciplineStudyPlans
   /v1/disciplines:
     get:
       consumes:

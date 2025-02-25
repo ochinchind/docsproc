@@ -50,9 +50,20 @@ func Run(cfg *config.Config) {
 		repo.NewSpecialtyRepo(pg),
 	)
 
+	competencyUseCase := usecase.NewCompetencyUseCase(
+		repo.NewCompetencyRepo(pg),
+		repo.NewSpecialtyRepo(pg),
+	)
+
 	disciplineUseCase := usecase.NewDisciplineUseCase(
 		repo.NewDisciplineRepo(pg),
 		repo.NewQualificationRepo(pg),
+		repo.NewCompetencyRepo(pg),
+	)
+
+	disciplineStudyPlanUseCase := usecase.NewDisciplineStudyPlanUseCase(
+		repo.NewDisciplineStudyPlanRepo(pg),
+		repo.NewDisciplineRepo(pg),
 	)
 
 	disciplineModuleUseCase := usecase.NewDisciplineModuleUseCase(
@@ -80,7 +91,9 @@ func Run(cfg *config.Config) {
 		authUseCase,
 		specialtyUseCase,
 		qualificationUseCase,
+		competencyUseCase,
 		disciplineUseCase,
+		disciplineStudyPlanUseCase,
 		disciplineModuleUseCase,
 		disciplineModuleChapterUseCase,
 		disciplineModuleChapterTopicUseCase,

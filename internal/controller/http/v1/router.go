@@ -48,8 +48,10 @@ func NewRouter(handler *gin.Engine, l logger.Interface, s *usecase.Services, cas
 	{
 		newUserRoutes(h, s.User, l, casbinEnforcer, rd)
 		newSpecialtyRoutes(h, s.Specialty, l, casbinEnforcer, rd)
+		newCompetencyRoutes(h, s.Competency, l, casbinEnforcer, rd)
 		newQualificationRoutes(h, s.Qualification, l, casbinEnforcer, rd)
 		newDisciplineRoutes(h, s.Discipline, l, casbinEnforcer, rd)
+		newDisciplineStudyPlanRoutes(h, s.DisciplineStudyPlan, l, casbinEnforcer, rd)
 		newDisciplineModuleRoutes(h, s.DisciplineModule, l, casbinEnforcer, rd)
 		newDisciplineModuleChapterRoutes(h, s.DisciplineModuleChapter, l, casbinEnforcer, rd)
 		newDisciplineModuleChapterTopicRoutes(h, s.DisciplineModuleChapterTopic, l, casbinEnforcer, rd)
