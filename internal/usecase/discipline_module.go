@@ -131,6 +131,21 @@ func (uc *DisciplineModuleUseCase) Store(disciplineModule *dto.StoreDisciplineMo
 		return errors.New("discipline not found")
 	}
 
+	// get total hours by discipline id
+	totalHoursByDisciplineID, err := uc.disciplineModuleRepo.GetTotalHoursByDisciplineID(int(disciplineModule.DisciplineID))
+
+	if err != nil {
+		return err
+	}
+
+	if totalHoursByDisciplineID > 0 {
+		totalHoursInModule := disciplineModule.FirstSemester + disciplineModule.SecondSemester + disciplineModule.ThirdSemester + disciplineModule.FourthSemester + disciplineModule.FifthSemester + disciplineModule.SixthSemester + disciplineModule.SeventhSemester + disciplineModule.EighthSemester
+
+		if totalHoursInModule+totalHoursByDisciplineID > discipline.HoursTotal {
+			return errors.New("total hours in modules are greater than total hours in discipline")
+		}
+	}
+
 	disciplineModuleEntity := &entity.DisciplineModule{
 		Name:            disciplineModule.Name,
 		DisciplineID:    disciplineModule.DisciplineID,

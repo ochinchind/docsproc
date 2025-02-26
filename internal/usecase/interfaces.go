@@ -131,6 +131,7 @@ type (
 		Update(disciplineModule *entity.DisciplineModule) error
 		Delete(disciplineModule *entity.DisciplineModule) error
 		Store(disciplineModule *entity.DisciplineModule) error
+		GetTotalHoursByDisciplineID(id int) (int, error)
 		GetByID(id int) (*entity.DisciplineModule, error)
 	}
 

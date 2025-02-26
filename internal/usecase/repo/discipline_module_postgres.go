@@ -42,6 +42,20 @@ func (r *DisciplineModuleRepo) Delete(disciplineModule *entity.DisciplineModule)
 	return nil
 }
 
+// GetTotalHoursByDisciplineID - retrieves total hours count of discipline modules
+func (r *DisciplineModuleRepo) GetTotalHoursByDisciplineID(id int) (int, error) {
+	var totalHours int
+
+	err := r.Postgres.Conn.
+		Model(&entity.DisciplineModule{}).
+		Where("discipline_id = ?", id).
+		Select("COALESCE(SUM(first_semester + second_semester + third_semester + fourth_semester + fifth_semester + sixth_semester + seventh_semester + eighth_semester), 0)").
+		Row().
+		Scan(&totalHours)
+
+	return totalHours, err
+}
+
 // GetByID -.
 func (r *DisciplineModuleRepo) GetByID(id int) (*entity.DisciplineModule, error) {
 	var qualification entity.DisciplineModule
