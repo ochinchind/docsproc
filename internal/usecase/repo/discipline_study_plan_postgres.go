@@ -46,7 +46,7 @@ func (r *DisciplineStudyPlanRepo) Delete(disciplineStudyPlan *entity.DisciplineS
 func (r *DisciplineStudyPlanRepo) GetByID(id int) (*entity.DisciplineStudyPlan, error) {
 	var qualification entity.DisciplineStudyPlan
 	err := r.Postgres.Conn.
-		Preload("DisciplineStudyPlanTopics").
+		Preload("Discipline.DisciplineModules.DisciplineModuleChapters.DisciplineModuleChapterTopics").
 		Where("id = ?", id).
 		First(&qualification).Error
 

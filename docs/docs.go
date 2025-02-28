@@ -857,6 +857,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/disciplineStudyPlans/generateDocx/{id}": {
+            "get": {
+                "description": "Generate a docx file for a disciplineStudyPlan.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DisciplineStudyPlans"
+                ],
+                "summary": "Generate Docx",
+                "operationId": "generate_docx",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DisciplineStudyPlan ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with disciplineStudyPlan",
+                        "schema": {
+                            "$ref": "#/definitions/entity.DisciplineStudyPlan"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/disciplineStudyPlans/{id}": {
             "get": {
                 "description": "Fetch a disciplineStudyPlan by ID.",
@@ -2438,6 +2477,9 @@ const docTemplate = `{
                 "contact_info": {
                     "type": "string",
                     "example": "John Doe"
+                },
+                "discipline": {
+                    "$ref": "#/definitions/entity.Discipline"
                 },
                 "discipline_id": {
                     "type": "integer",

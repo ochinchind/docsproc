@@ -6,6 +6,7 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/ochinchind/docsproc/internal/dto"
 	"github.com/ochinchind/docsproc/internal/entity"
+	"github.com/ochinchind/docsproc/internal/generator"
 	"github.com/ochinchind/docsproc/internal/http-server/middleware/auth"
 	"github.com/ochinchind/docsproc/internal/http-server/middleware/permission"
 	"github.com/ochinchind/docsproc/internal/usecase"
@@ -30,6 +31,7 @@ func newDisciplineStudyPlanRoutes(handler *gin.RouterGroup, t usecase.Discipline
 		h.POST("", permission.Permission(casbinEnforcer, "disciplineStudyPlan", "write"), r.store)
 		h.PATCH("/:id", permission.Permission(casbinEnforcer, "disciplineStudyPlan", "write"), r.update)
 		h.DELETE("/:id", permission.Permission(casbinEnforcer, "disciplineStudyPlan", "write"), r.delete)
+		h.GET("/generateDocx/:id", permission.Permission(casbinEnforcer, "disciplineStudyPlan", "read"), r.generateDocx)
 	}
 }
 
@@ -181,4 +183,34 @@ func (r disciplineStudyPlanRoutes) delete(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, response{Message: "Successfully deleted"})
+}
+
+// Generate a docx file for a disciplineStudyPlan.
+//
+// @Summary      Generate Docx
+// @Description  Generate a docx file for a disciplineStudyPlan.
+// @ID           generate_docx
+// @Tags         DisciplineStudyPlans
+// @Accept       json
+// @Produce      json
+// @Param        id path string true "DisciplineStudyPlan ID"
+// @Success      200 {object} entity.DisciplineStudyPlan "Successful response with disciplineStudyPlan"
+// @Failure      500 {object} response "Internal server error"
+// @Router       /v1/disciplineStudyPlans/generateDocx/{id} [get]
+func (r disciplineStudyPlanRoutes) generateDocx(context *gin.Context) {
+	docxGenerator := generator.NewDOCXGenerator(r.t)
+
+	id, err := strconv.Atoi(context.Param("id"))
+
+	if err != nil {
+		context.JSON(500, response{err.Error()})
+		return
+	}
+
+	err = docxGenerator.Generate(id)
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, response{err.Error()})
+		return
+	}
 }

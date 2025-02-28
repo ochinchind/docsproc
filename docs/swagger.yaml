@@ -617,6 +617,8 @@ definitions:
       contact_info:
         example: John Doe
         type: string
+      discipline:
+        $ref: '#/definitions/entity.Discipline'
       discipline_id:
         example: 1
         type: integer
@@ -1439,6 +1441,32 @@ paths:
           schema:
             $ref: '#/definitions/v1.response'
       summary: Get DisciplineStudyPlan
+      tags:
+      - DisciplineStudyPlans
+  /v1/disciplineStudyPlans/generateDocx/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Generate a docx file for a disciplineStudyPlan.
+      operationId: generate_docx
+      parameters:
+      - description: DisciplineStudyPlan ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response with disciplineStudyPlan
+          schema:
+            $ref: '#/definitions/entity.DisciplineStudyPlan'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Generate Docx
       tags:
       - DisciplineStudyPlans
   /v1/disciplines:
