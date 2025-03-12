@@ -47,6 +47,8 @@ func (r *DisciplineStudyPlanRepo) GetByID(id int) (*entity.DisciplineStudyPlan, 
 	var qualification entity.DisciplineStudyPlan
 	err := r.Postgres.Conn.
 		Preload("Discipline.DisciplineModules.DisciplineModuleChapters.DisciplineModuleChapterTopics").
+		Preload("Discipline.Qualification.Specialty").
+		Preload("Discipline.Competency").
 		Where("id = ?", id).
 		First(&qualification).Error
 

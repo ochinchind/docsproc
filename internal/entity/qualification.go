@@ -14,4 +14,5 @@ type Qualification struct {
 	UpdatedAt   time.Time      `json:"updated_at"   example:"2021-01-01T00:00:00Z"                 gorm:"autoUpdateTime"`
 	DeletedAt   gorm.DeletedAt `json:"-"            example:"2021-01-01T00:00:00Z"                 gorm:"index"`
 	Disciplines []Discipline   `json:"disciplines"                                                 gorm:"foreignKey:QualificationID;references:ID"`
+	Specialty   *Specialty     `json:"specialty"                                                   gorm:"foreignKey:SpecialtyID"`
 }

@@ -23,4 +23,6 @@ type Discipline struct {
 	DeletedAt           gorm.DeletedAt        `json:"-"            example:"2021-01-01T00:00:00Z"                     gorm:"index"`
 	DisciplineModules   []DisciplineModule    `json:"discipline_modules"                                                 gorm:"foreignKey:DisciplineID;references:ID"`
 	DisciplineStudyPlan []DisciplineStudyPlan `json:"discipline_study_plans"                                              gorm:"foreignKey:DisciplineID;references:ID"`
+	Qualification       *Qualification        `json:"qualification"                                  gorm:"foreignKey:QualificationID"`
+	Competency          *Competency           `json:"competency"                                     gorm:"foreignKey:CompetencyID"`
 }

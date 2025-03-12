@@ -2286,6 +2286,12 @@ const docTemplate = `{
                         "$ref": "#/definitions/entity.DisciplineModule"
                     }
                 },
+                "discipline_study_plans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.DisciplineStudyPlan"
+                    }
+                },
                 "education_base": {
                     "type": "string",
                     "example": "main"
@@ -2478,6 +2484,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "John Doe"
                 },
+                "created_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
+                },
                 "discipline": {
                     "$ref": "#/definitions/entity.Discipline"
                 },
@@ -2500,6 +2510,10 @@ const docTemplate = `{
                 "pre_requisites": {
                     "type": "string",
                     "example": "1,2,3"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
                 }
             }
         },

@@ -477,6 +477,10 @@ definitions:
         items:
           $ref: '#/definitions/entity.DisciplineModule'
         type: array
+      discipline_study_plans:
+        items:
+          $ref: '#/definitions/entity.DisciplineStudyPlan'
+        type: array
       education_base:
         example: main
         type: string
@@ -617,6 +621,9 @@ definitions:
       contact_info:
         example: John Doe
         type: string
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
       discipline:
         $ref: '#/definitions/entity.Discipline'
       discipline_id:
@@ -633,6 +640,9 @@ definitions:
         type: string
       pre_requisites:
         example: 1,2,3
+        type: string
+      updated_at:
+        example: "2021-01-01T00:00:00Z"
         type: string
     type: object
   entity.Qualification:

@@ -8,8 +8,8 @@ type UpdateDisciplineDTO struct {
 	Lang            string `json:"lang"             example:"en"`
 	HoursTotal      *int   `json:"hours_total,omitempty"      example:"100"`
 	CreaditsCount   *int   `json:"credits_count,omitempty"    example:"100"`
-	EducationForm   string `json:"education_form"    example:"full-time"`
-	EducationBase   string `json:"education_base"    example:"main"`
+	EducationForm   string `json:"education_form"    example:"full-time" validate:"oneof=full-time part-time"`
+	EducationBase   string `json:"education_base"    example:"main" validate:"oneof=main additional"`
 	AssessmentType  string `json:"assessment_type"   example:"exam"`
 	CompetencyID    uint   `json:"competency_id"     example:"1"`
 	QualificationID uint   `json:"qualification_id" example:"1"`
@@ -24,8 +24,8 @@ type StoreDisciplineDTO struct {
 	Lang            string `json:"lang"             example:"en"`
 	HoursTotal      int    `json:"hours_total"      example:"100" binding:"required"`
 	CreaditsCount   int    `json:"credits_count"    example:"100" binding:"required"`
-	EducationForm   string `json:"education_form"    example:"full-time" binding:"required"`
-	EducationBase   string `json:"education_base"    example:"main" binding:"required"`
+	EducationForm   string `json:"education_form"    example:"full-time" binding:"required" validate:"oneof=full-time part-time"`
+	EducationBase   string `json:"education_base"    example:"main" binding:"required" validate:"oneof=main additional"`
 	AssessmentType  string `json:"assessment_type"   example:"exam"`
 	CompetencyID    uint   `json:"competency_id"     example:"1" binding:"required"`
 	QualificationID uint   `json:"qualification_id" example:"1" binding:"required"`
